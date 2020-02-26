@@ -10,6 +10,7 @@
 
 Here are some of tech stack i used for this project :
 - [Laravel](https://laravel.com/)
+- [Vue JS](https://vuejs.org//)
 - [Tailwind CSS](https://tailwindcss.com/)
 - [MySQL](https://www.mysql.com/)
 
