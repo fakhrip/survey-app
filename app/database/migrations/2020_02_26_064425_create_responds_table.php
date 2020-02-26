@@ -15,13 +15,14 @@ class CreateRespondsTable extends Migration
     {
         Schema::create('responds', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->text('answer')->default('-');
-            $table->unsignedBigInteger('content_id');
+            $table->string('ip_address', 15)->default('255.255.255.255');
+            $table->text('answer_ids');
+            $table->unsignedBigInteger('survey_id');
             $table->timestamps();
 
-            $table->foreign('content_id')
+            $table->foreign('survey_id')
                 ->references('id')
-                ->on('contents')
+                ->on('surveys')
                 ->onDelete('cascade');
         });
     }

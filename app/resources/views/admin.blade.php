@@ -1,23 +1,15 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">Dashboard</div>
-
-                <div class="card-body">
-                    @if (session('status'))
-                        <div class="alert alert-success" role="alert">
-                            {{ session('status') }}
-                        </div>
-                    @endif
-
-                    You are logged in As ADMIN!
-                </div>
-            </div>
+<div class="flex w-full h-full m-8">
+    @if (session('status'))
+        <div class="alert alert-success" role="alert">
+            {{ session('status') }}
         </div>
+    @endif
+
+    <div class="flex w-auto h-16">
+        <button type="button" class="btn btn-primary">Create new survey</button>
     </div>
 </div>
 @endsection
