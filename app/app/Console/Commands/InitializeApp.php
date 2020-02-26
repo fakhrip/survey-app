@@ -45,19 +45,23 @@ class InitializeApp extends Command
             $this->question("This will delete all the database current data");
             if ($this->confirm('Do you wish to continue?')) {
 
-                $this->line("[*] As you wish ...");
+                $this->line("[*] As you wish ...\n");
 
                 $bar = $this->output->createProgressBar(2);
                 $bar->start();
+        
+                $this->line("\n[*] Deleting tables (if any) & Creating new tables\n");
+                $this->callSilent('migrate:fresh');
+                $bar->advance();
 
-                $this->line("\n[*] Creating admin acount");
+                $this->line("\n[*] Creating admin acount\n");
                 $email = $this->ask('> What is the email for admin account ?');
                 $password = $this->ask('> What is the password for admin account ?');
                 $rep_password = $this->ask('> Repeat the password for validation !');
 
                 if($password !== $rep_password) {
 
-                    $this->error('\n[*] Password didn\'t match !');
+                    $this->error('\n[*] Password didn\'t match !\n');
 
                 } else {
 
@@ -66,10 +70,6 @@ class InitializeApp extends Command
                         'email' => $email,
                         'password' => Hash::make($password),
                     ]);
-                    $bar->advance();
-        
-                    $this->line("\n[*] Deleting tables (if any) & Creating new tables");
-                    $this->callSilent('migrate:fresh');
                     $bar->advance();
     
                     $bar->finish();
