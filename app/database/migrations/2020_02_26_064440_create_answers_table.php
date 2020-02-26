@@ -15,7 +15,14 @@ class CreateAnswersTable extends Migration
     {
         Schema::create('answers', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->string('ip_address', 15)->default('255.255.255.255');
+            $table->text('answer_ids');
             $table->timestamps();
+
+            $table->foreign('survey_id')
+                ->references('id')
+                ->on('surveys')
+                ->onDelete('cascade');
         });
     }
 

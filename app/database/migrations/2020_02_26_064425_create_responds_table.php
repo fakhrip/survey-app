@@ -15,7 +15,13 @@ class CreateRespondsTable extends Migration
     {
         Schema::create('responds', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->text('answer')->default('-');
             $table->timestamps();
+
+            $table->foreign('content_id')
+                ->references('id')
+                ->on('contents')
+                ->onDelete('cascade');
         });
     }
 

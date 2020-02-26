@@ -15,6 +15,10 @@ class CreateSurveysTable extends Migration
     {
         Schema::create('surveys', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->string('title', 100)->default('Default Title');
+            $table->text('description')->nullable()->default('Ini deskripsi nya');
+            $table->text('content_ids');
+            $table->text('duration');
             $table->timestamps();
         });
     }
