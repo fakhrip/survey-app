@@ -12,7 +12,13 @@
 */
 
 Route::get('/', function () {
-    return view('layouts/app');
+    return view('guest');
 })->name('app');
 
 Auth::routes(['register' => false]);
+
+Route::get('/admin', 'HomeController@index')->name('admin');
+
+Route::get('{path}', function () {
+    return view('/layouts/master');
+})->where( 'path', '([A-z\d-\/_.]+)?' );
