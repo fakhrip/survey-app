@@ -61,7 +61,11 @@ Note : `^` = versi sama atau diatasnya
     ```bash
     npm run watch
     ```
-9. Buka aplikasi pada link http://127.0.0.1:8000/
+9. Gunakan command berikut untuk menginisialisasi aplikasi serta membuat akun admin pada console yang anda gunakan
+    ```bash
+    php artisan init:app
+    ```
+10. Buka aplikasi pada link http://127.0.0.1:8000/
 
 ## What if error happened ?
 
