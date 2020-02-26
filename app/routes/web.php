@@ -12,5 +12,7 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
-});
+    return view('layouts/app');
+})->name('app');
+
+Auth::routes(['register' => false]);
