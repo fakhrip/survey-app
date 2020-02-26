@@ -9,9 +9,9 @@
 ## Tech Stack
 
 Here are some of tech stack i used for this project :
-- Laravel 
-- Tailwind CSS
-- MySQL
+- [Laravel](https://laravel.com/)
+- [Tailwind CSS](https://tailwindcss.com/)
+- [MySQL](https://www.mysql.com/)
 
 ## Requirements
 
