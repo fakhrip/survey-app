@@ -17,6 +17,7 @@ class CreateAnswersTable extends Migration
             $table->bigIncrements('id');
             $table->string('ip_address', 15)->default('255.255.255.255');
             $table->text('answer_ids');
+            $table->unsignedBigInteger('survey_id');
             $table->timestamps();
 
             $table->foreign('survey_id')
