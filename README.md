@@ -57,6 +57,10 @@ Note : `^` = versi sama atau diatasnya
     ```bash
     php artisan serve
     ```
+8. **[OPTIONAL]** Kalau anda ingin mendevelop aplikasi ini gunakan command berikut agar setiap perubahan yang dilakukan bisa langsung mempengaruhi aplikasi
+    ```bash
+    npm run watch
+    ```
 9. Buka aplikasi pada link http://127.0.0.1:8000/
 
 ## What if error happened ?
