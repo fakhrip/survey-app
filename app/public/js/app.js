@@ -2070,6 +2070,22 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -37751,6 +37767,57 @@ var render = function() {
                       }
                     },
                     [_vm._v("Delete this content")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    {
+                      staticClass:
+                        "w-10/12 h-8 flex rounded-sm mb-2 mx-auto appearance-none cursor-pointer select-none",
+                      class: [
+                        { "bg-green-500": _vm.contents[index].isRequired },
+                        { "bg-gray-500": !_vm.contents[index].isRequired }
+                      ],
+                      on: {
+                        click: function($event) {
+                          _vm.contents[index].isRequired = !_vm.contents[index]
+                            .isRequired
+                        }
+                      }
+                    },
+                    [
+                      _c(
+                        "span",
+                        {
+                          staticClass: "w-auto m-auto",
+                          class: [
+                            { visible: _vm.contents[index].isRequired },
+                            { hidden: !_vm.contents[index].isRequired }
+                          ]
+                        },
+                        [
+                          _vm._v(
+                            "\n                        This content is mandatory\n                    "
+                          )
+                        ]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "span",
+                        {
+                          staticClass: "w-auto m-auto",
+                          class: [
+                            { hidden: _vm.contents[index].isRequired },
+                            { visible: !_vm.contents[index].isRequired }
+                          ]
+                        },
+                        [
+                          _vm._v(
+                            "\n                        This content is optional\n                    "
+                          )
+                        ]
+                      )
+                    ]
                   ),
                   _vm._v(" "),
                   _c("div", { staticClass: "flex items-center p-2" }, [

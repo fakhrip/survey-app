@@ -47,6 +47,22 @@
                         contents.splice(index, 1);
                     ">Delete this content</button>
 
+                    <div class="w-10/12 h-8 flex rounded-sm mb-2 mx-auto appearance-none cursor-pointer select-none"
+                        :class="[{ 'bg-green-500' : contents[index].isRequired },
+                                { 'bg-gray-500' : !contents[index].isRequired }]" 
+                        v-on:click="contents[index].isRequired = !contents[index].isRequired">
+                        <span class="w-auto m-auto"
+                            :class="[{ 'visible' : contents[index].isRequired },
+                                    { 'hidden' : !contents[index].isRequired }]">
+                            This content is mandatory
+                        </span>
+                        <span class="w-auto m-auto"
+                            :class="[{ 'hidden' : contents[index].isRequired },
+                                    { 'visible' : !contents[index].isRequired }]">
+                            This content is optional
+                        </span>
+                    </div>
+
                     <div class="flex items-center p-2">
                         <div class="w-1/3">
                             <label class="block text-gray-600 font-bold text-right mb-1 mb-0 pr-4">
