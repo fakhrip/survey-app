@@ -2096,10 +2096,15 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['token'],
   data: function data() {
-    return {};
+    return {
+      surveyList: []
+    };
   },
   mounted: function mounted() {
     var globe = this;
@@ -2109,8 +2114,7 @@ __webpack_require__.r(__webpack_exports__);
       }
     }).then(function (response) {
       if (response.data.message === "success") {
-        globe.ratingAsisten = response.data.ratingAsisten;
-        globe.gajiAsisten = response.data.gajiAsisten;
+        globe.surveyList = response.data.surveyList;
       } else {
         globe.$toasted.global.showError({
           message: response.data.message
@@ -38032,15 +38036,29 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
+  return _c("div", { staticClass: "flex w-full h-full m-4" }, [
+    _c(
+      "div",
+      {
+        staticClass: "font-normal text-3xl text-gray-700 m-auto",
+        class: [
+          { hidden: _vm.surveyList.length > 0 },
+          { visible: _vm.surveyList.length < 1 }
+        ]
+      },
+      [_vm._m(0)]
+    )
+  ])
 }
 var staticRenderFns = [
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "flex w-full h-full m-4" }, [
-      _c("div", { staticClass: "w-auto h-auto flex" })
+    return _c("span", [
+      _vm._v("You have no survey, add one by clicking "),
+      _c("span", { staticClass: "font-bold" }, [_vm._v("Create new survey")]),
+      _vm._v(" button above")
     ])
   }
 ]

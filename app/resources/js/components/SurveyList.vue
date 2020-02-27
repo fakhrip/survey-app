@@ -1,6 +1,9 @@
 <template>
     <div class="flex w-full h-full m-4">
-        <div class="w-auto h-auto flex">
+        <div class="font-normal text-3xl text-gray-700 m-auto"
+            :class="[{ 'hidden' : surveyList.length > 0 },
+                    { 'visible' : surveyList.length < 1 }]">
+            <span>You have no survey, add one by clicking <span class="font-bold">Create new survey</span> button above</span>
         </div>
     </div>
 </template>
@@ -13,6 +16,7 @@
 
         data() {
             return {
+                surveyList: [],
             }
         },
 
@@ -26,8 +30,7 @@
                     }
                 }).then(response => {
                 if(response.data.message === "success") {
-                    globe.ratingAsisten = response.data.ratingAsisten;
-                    globe.gajiAsisten = response.data.gajiAsisten;
+                    globe.surveyList = response.data.surveyList;
                 } else {
                     globe.$toasted.global.showError({
                         message: response.data.message
