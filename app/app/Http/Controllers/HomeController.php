@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use Auth;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class HomeController extends Controller
 {
@@ -23,6 +25,14 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $token = Str::random(60);
+
+        Auth::user()->forceFill([
+            'api_token' => hash('sha256', $token),
+        ])->save();
+
+        return view('home', [
+            'token' => $token
+        ]);
     }
 }
