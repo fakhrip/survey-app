@@ -17,8 +17,14 @@ class CreateRespondsTable extends Migration
             $table->bigIncrements('id');
             $table->string('ip_address', 15)->default('255.255.255.255');
             $table->text('answer_ids');
+            $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('survey_id');
             $table->timestamps();
+
+            $table->foreign('user_id')
+                ->references('id')
+                ->on('users')
+                ->onDelete('cascade');
 
             $table->foreign('survey_id')
                 ->references('id')
