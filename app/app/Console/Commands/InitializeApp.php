@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\User;
+use Illuminate\Support\Str;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Hash;
 
@@ -70,6 +71,7 @@ class InitializeApp extends Command
                         'email' => $email,
                         'type' => 'admin',
                         'password' => Hash::make($password),
+                        'api_token' => Str::random(60),
                     ]);
                     $bar->advance();
     
