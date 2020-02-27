@@ -50,9 +50,15 @@
                             @endif
                         @else
                             @if (Auth::user()->type === "admin")
-                                <a href="{{ route('new_survey') }}">
-                                    <button type="button" class="btn btn-primary">Create new survey</button>
-                                </a>
+                                @if (URL::current() === route("new_survey"))
+                                    <a href="{{ route('new_survey') }}" onclick="return confirm('This will delete current form, are you sure ?');">
+                                        <button type="button" class="btn btn-primary">Create new survey</button>
+                                    </a>
+                                @else
+                                    <a href="{{ route('new_survey') }}">
+                                        <button type="button" class="btn btn-primary">Create new survey</button>
+                                    </a>
+                                @endif
                             @endif
                             
                             <li class="nav-item dropdown">

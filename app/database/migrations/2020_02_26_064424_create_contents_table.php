@@ -15,7 +15,15 @@ class CreateContentsTable extends Migration
     {
         Schema::create('contents', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('type')->unsigned()->default(1);
+
+            /*******************************************/
+            /* 0 => Text Area                          */
+            /* 1 => Datepicker                         */
+            /* 2 => Radio Option (Single choice)       */
+            /* 3 => Checkbox Option (Multiple choices) */
+            /*******************************************/
+            $table->integer('type')->unsigned()->default('0');
+
             $table->text('question');
             $table->text('right_answer')->nullable()->default('-');
             $table->longText('choices')->nullable()->default('-'); //JSON format

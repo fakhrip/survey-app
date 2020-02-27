@@ -1979,6 +1979,83 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -1993,7 +2070,7 @@ __webpack_require__.r(__webpack_exports__);
         type: '',
         question: '',
         right_answer: '',
-        choices: [],
+        choices: ['This is example answer'],
         isRequired: false
       }]
     };
@@ -37486,95 +37563,359 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "w-full h-full flex" }, [
-    _c("form", { staticClass: "w-full max-w-md m-auto" }, [
-      _c("div", { staticClass: "flex items-center mb-6" }, [
-        _vm._m(0),
-        _vm._v(" "),
-        _c("div", { staticClass: "w-2/3" }, [
-          _c("input", {
-            directives: [
-              {
-                name: "model",
-                rawName: "v-model",
-                value: _vm.surveyForm.title,
-                expression: "surveyForm.title"
-              }
-            ],
-            staticClass:
-              "bg-gray-200 appearance-none text-xl border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-teal-500",
-            attrs: {
-              id: "inline-full-name",
-              type: "text",
-              placeholder: "New Survey"
-            },
-            domProps: { value: _vm.surveyForm.title },
-            on: {
-              input: function($event) {
-                if ($event.target.composing) {
-                  return
+    _c(
+      "form",
+      { staticClass: "w-full max-w-md m-auto" },
+      [
+        _c("div", { staticClass: "flex items-center mb-6" }, [
+          _vm._m(0),
+          _vm._v(" "),
+          _c("div", { staticClass: "w-2/3" }, [
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.surveyForm.title,
+                  expression: "surveyForm.title"
                 }
-                _vm.$set(_vm.surveyForm, "title", $event.target.value)
-              }
-            }
-          })
-        ])
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "flex items-center mb-6" }, [
-        _vm._m(1),
-        _vm._v(" "),
-        _c("div", { staticClass: "w-2/3" }, [
-          _c("textarea", {
-            directives: [
-              {
-                name: "model",
-                rawName: "v-model",
-                value: _vm.surveyForm.description,
-                expression: "surveyForm.description"
-              }
-            ],
-            staticClass:
-              "font-overpass-mono-bold resize-none text-xl bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full h-full py-4 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-teal-500",
-            attrs: {
-              cols: "30",
-              rows: "10",
-              type: "text",
-              placeholder: "This is a customable survey"
-            },
-            domProps: { value: _vm.surveyForm.description },
-            on: {
-              input: function($event) {
-                if ($event.target.composing) {
-                  return
+              ],
+              staticClass:
+                "bg-gray-200 appearance-none text-xl border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-teal-500",
+              attrs: { type: "text", placeholder: "New Survey" },
+              domProps: { value: _vm.surveyForm.title },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.$set(_vm.surveyForm, "title", $event.target.value)
                 }
-                _vm.$set(_vm.surveyForm, "description", $event.target.value)
-              }
-            }
-          })
-        ])
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "flex items-center mb-6" }, [
-        _vm._m(2),
-        _vm._v(" "),
-        _c(
-          "div",
-          { staticClass: "w-2/3" },
-          [
-            _c("v-date-picker", {
-              attrs: {
-                mode: "range",
-                value: null,
-                color: "red",
-                "is-dark": "",
-                "is-inline": ""
               }
             })
-          ],
-          1
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "flex items-center mb-6" }, [
+          _vm._m(1),
+          _vm._v(" "),
+          _c("div", { staticClass: "w-2/3" }, [
+            _c("textarea", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.surveyForm.description,
+                  expression: "surveyForm.description"
+                }
+              ],
+              staticClass:
+                "resize-none text-xl bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full h-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-teal-500",
+              attrs: {
+                cols: "30",
+                rows: "3",
+                type: "text",
+                placeholder: "This is a customable survey"
+              },
+              domProps: { value: _vm.surveyForm.description },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.$set(_vm.surveyForm, "description", $event.target.value)
+                }
+              }
+            })
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "flex items-center mb-6" }, [
+          _vm._m(2),
+          _vm._v(" "),
+          _c(
+            "div",
+            { staticClass: "w-2/3" },
+            [
+              _c("vc-date-picker", {
+                attrs: {
+                  mode: "range",
+                  "min-date": new Date(),
+                  color: "red",
+                  "is-dark": ""
+                },
+                model: {
+                  value: _vm.surveyForm.duration,
+                  callback: function($$v) {
+                    _vm.$set(_vm.surveyForm, "duration", $$v)
+                  },
+                  expression: "surveyForm.duration"
+                }
+              })
+            ],
+            1
+          )
+        ]),
+        _vm._v(" "),
+        _vm._l(_vm.contents, function(content, index) {
+          return _c(
+            "form",
+            { key: index, staticClass: "w-full flex-row h-auto mb-4" },
+            [
+              _c(
+                "div",
+                { staticClass: "w-full flex-row rounded-sm bg-gray-400 m-2" },
+                [
+                  _c("div", { staticClass: "flex items-center p-2" }, [
+                    _vm._m(3, true),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "w-2/3" }, [
+                      _c(
+                        "select",
+                        {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.contents[index].type,
+                              expression: "contents[index].type"
+                            }
+                          ],
+                          staticClass:
+                            "block resize-y resize-none text-lg bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full h-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-teal-500",
+                          on: {
+                            change: function($event) {
+                              var $$selectedVal = Array.prototype.filter
+                                .call($event.target.options, function(o) {
+                                  return o.selected
+                                })
+                                .map(function(o) {
+                                  var val = "_value" in o ? o._value : o.value
+                                  return val
+                                })
+                              _vm.$set(
+                                _vm.contents[index],
+                                "type",
+                                $event.target.multiple
+                                  ? $$selectedVal
+                                  : $$selectedVal[0]
+                              )
+                            }
+                          }
+                        },
+                        [
+                          _c(
+                            "option",
+                            {
+                              staticClass: "text-gray-400",
+                              attrs: { value: "", disabled: "", selected: "" }
+                            },
+                            [_vm._v("Choose answer type")]
+                          ),
+                          _vm._v(" "),
+                          _c("option", { attrs: { value: "0" } }, [
+                            _vm._v("Text")
+                          ]),
+                          _vm._v(" "),
+                          _c("option", { attrs: { value: "1" } }, [
+                            _vm._v("Date")
+                          ]),
+                          _vm._v(" "),
+                          _c("option", { attrs: { value: "2" } }, [
+                            _vm._v("Radio Option (Single choice)")
+                          ]),
+                          _vm._v(" "),
+                          _c("option", { attrs: { value: "3" } }, [
+                            _vm._v("Checkbox Option (Multiple choices)")
+                          ])
+                        ]
+                      )
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "flex items-center p-2" }, [
+                    _vm._m(4, true),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "w-2/3" }, [
+                      _c("textarea", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.contents[index].question,
+                            expression: "contents[index].question"
+                          }
+                        ],
+                        staticClass:
+                          "resize-y resize-none text-lg bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full h-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-teal-500",
+                        attrs: {
+                          cols: "30",
+                          rows: "3",
+                          type: "text",
+                          placeholder: "Here comes the question, right ?"
+                        },
+                        domProps: { value: _vm.contents[index].question },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.contents[index],
+                              "question",
+                              $event.target.value
+                            )
+                          }
+                        }
+                      })
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    {
+                      staticClass: "flex-row w-full",
+                      class: [
+                        {
+                          visible:
+                            _vm.contents[index].type == "2" ||
+                            _vm.contents[index].type == "3"
+                        },
+                        {
+                          hidden:
+                            _vm.contents[index].type != "2" &&
+                            _vm.contents[index].type != "3"
+                        }
+                      ]
+                    },
+                    [
+                      _vm._m(5, true),
+                      _vm._v(" "),
+                      _vm._l(_vm.contents[index].choices, function(
+                        option,
+                        optionIndex
+                      ) {
+                        return _c(
+                          "div",
+                          {
+                            key: optionIndex,
+                            staticClass: "w-full flex h-auto"
+                          },
+                          [
+                            _c(
+                              "div",
+                              { staticClass: "flex items-center p-2" },
+                              [
+                                _c("div", { staticClass: "w-1/3" }, [
+                                  _c(
+                                    "label",
+                                    {
+                                      staticClass:
+                                        "block text-gray-600 font-bold text-right mb-1 mb-0 pr-4"
+                                    },
+                                    [
+                                      _vm._v(
+                                        "\n                                    No. " +
+                                          _vm._s(optionIndex + 1) +
+                                          "\n                                "
+                                      )
+                                    ]
+                                  )
+                                ]),
+                                _vm._v(" "),
+                                _c("div", { staticClass: "w-2/3" }, [
+                                  _c("textarea", {
+                                    directives: [
+                                      {
+                                        name: "model",
+                                        rawName: "v-model",
+                                        value:
+                                          _vm.contents[index].choices[
+                                            optionIndex
+                                          ],
+                                        expression:
+                                          "contents[index].choices[optionIndex]"
+                                      }
+                                    ],
+                                    staticClass:
+                                      "resize-y resize-none text-lg bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full h-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-teal-500",
+                                    attrs: {
+                                      cols: "30",
+                                      rows: "3",
+                                      type: "text",
+                                      placeholder: "This is example answer"
+                                    },
+                                    domProps: {
+                                      value:
+                                        _vm.contents[index].choices[optionIndex]
+                                    },
+                                    on: {
+                                      input: function($event) {
+                                        if ($event.target.composing) {
+                                          return
+                                        }
+                                        _vm.$set(
+                                          _vm.contents[index].choices,
+                                          optionIndex,
+                                          $event.target.value
+                                        )
+                                      }
+                                    }
+                                  })
+                                ])
+                              ]
+                            )
+                          ]
+                        )
+                      }),
+                      _vm._v(" "),
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-primary ml-2 mb-2",
+                          attrs: { type: "button" },
+                          on: {
+                            click: function($event) {
+                              return _vm.contents[index].choices.push(
+                                "This is example answer"
+                              )
+                            }
+                          }
+                        },
+                        [_vm._v("Add new option")]
+                      )
+                    ],
+                    2
+                  )
+                ]
+              )
+            ]
+          )
+        }),
+        _vm._v(" "),
+        _c(
+          "button",
+          {
+            staticClass: "btn btn-primary btn-block m-2",
+            attrs: { type: "button" },
+            on: {
+              click: function($event) {
+                return _vm.contents.push({
+                  id: 0,
+                  type: "",
+                  question: "",
+                  right_answer: "",
+                  choices: ["This is example answer"],
+                  isRequired: false
+                })
+              }
+            }
+          },
+          [_vm._v("Add new content")]
         )
-      ])
-    ])
+      ],
+      2
+    )
   ])
 }
 var staticRenderFns = [
@@ -37620,6 +37961,52 @@ var staticRenderFns = [
             "block text-gray-600 font-bold text-right mb-1 mb-0 pr-4 text-lg"
         },
         [_vm._v("\n                    Duration\n                ")]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "w-1/3" }, [
+      _c(
+        "label",
+        {
+          staticClass: "block text-gray-600 font-bold text-right mb-1 mb-0 pr-4"
+        },
+        [_vm._v("\n                            Type\n                        ")]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "w-1/3" }, [
+      _c(
+        "label",
+        {
+          staticClass: "block text-gray-600 font-bold text-right mb-1 mb-0 pr-4"
+        },
+        [
+          _vm._v(
+            "\n                            Question\n                        "
+          )
+        ]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "w-full flex" }, [
+      _c("div", { staticClass: "w-full h-1 bg-gray-700 my-auto mx-4" }),
+      _vm._v(" "),
+      _c(
+        "span",
+        { staticClass: "w-auto ml-auto pr-4 font-bold text-xl text-gray-700" },
+        [_vm._v("Options")]
       )
     ])
   }
