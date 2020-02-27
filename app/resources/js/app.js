@@ -1,4 +1,5 @@
 import Toasted from 'vue-toasted';
+import VCalendar from 'v-calendar';
 import Axios from 'axios';
 
 require('./bootstrap');
@@ -34,6 +35,10 @@ Vue.toasted.register('showSuccess',
       duration : 2000
     }
 )
+
+Vue.use(VCalendar, {
+    componentPrefix: 'vc',  // Use <vc-calendar /> instead of <v-calendar />
+});
 
 const files = require.context('./', true, /\.vue$/i)
 files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))

@@ -50,7 +50,9 @@
                             @endif
                         @else
                             @if (Auth::user()->type === "admin")
-                                <button type="button" class="btn btn-primary">Create new survey</button>
+                                <a href="{{ route('new_survey') }}">
+                                    <button type="button" class="btn btn-primary">Create new survey</button>
+                                </a>
                             @endif
                             
                             <li class="nav-item dropdown">
