@@ -7,5 +7,5 @@
         </div>
     @endif
     
-    <admin></admin>
+    <survey-list></survey-list>
 @endsection
