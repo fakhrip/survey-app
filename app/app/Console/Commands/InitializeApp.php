@@ -71,7 +71,6 @@ class InitializeApp extends Command
                         'email' => $email,
                         'type' => 'admin',
                         'password' => Hash::make($password),
-                        'api_token' => Str::random(60),
                     ]);
                     $bar->advance();
     
