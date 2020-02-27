@@ -68,6 +68,7 @@ class InitializeApp extends Command
                     User::create([
                         'name' => 'Admin',
                         'email' => $email,
+                        'type' => 'admin',
                         'password' => Hash::make($password),
                     ]);
                     $bar->advance();

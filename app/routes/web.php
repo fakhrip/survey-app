@@ -13,9 +13,12 @@
 
 Route::get('/', function () {
     return view('guest');
-})->name('app');
+})->name('app')->middleware('guest');
 
-Auth::routes(['register' => false]);
+Auth::routes();
+
+// To disable registration uncomment this line below and comment line above
+// Auth::routes(['register' => false]);
 
 Route::get('/admin', 'HomeController@index')->name('admin');
 
