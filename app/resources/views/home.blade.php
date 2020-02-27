@@ -7,5 +7,9 @@
         </div>
     @endif
     
-    <survey-list></survey-list>
+    @if (Auth::user()->type === "admin")
+        <survey-list></survey-list>
+    @else
+        <respond-list></respond-list>
+    @endif
 @endsection

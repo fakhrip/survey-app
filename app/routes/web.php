@@ -12,7 +12,7 @@
 */
 
 Route::get('/', function () {
-    return view('guest');
+    return view('home');
 })->name('app')->middleware('guest');
 
 Auth::routes();
@@ -20,8 +20,4 @@ Auth::routes();
 // To disable registration uncomment this line below and comment line above
 // Auth::routes(['register' => false]);
 
-Route::get('/admin', 'HomeController@index')->name('admin');
-
-Route::get('{path}', function () {
-    return view('/layouts/master');
-})->where( 'path', '([A-z\d-\/_.]+)?' );
+Route::get('/home', 'HomeController@index')->name('home');
