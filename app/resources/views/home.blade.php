@@ -8,8 +8,8 @@
     @endif
     
     @if (Auth::user()->type === "admin")
-        <survey-list></survey-list>
+        <survey-list token="{{ $token }}"></survey-list>
     @else
-        <respond-list></respond-list>
+        <respond-list token="{{ $token }}"></respond-list>
     @endif
 @endsection

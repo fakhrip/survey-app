@@ -1940,12 +1940,17 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
+  props: ['token'],
   data: function data() {
     return {};
   },
   mounted: function mounted() {
     var globe = this;
-    globe.$axios.get('/api/getSurveyList').then(function (response) {
+    globe.$axios.get('/api/getSurveyList', {
+      headers: {
+        'Authorization': "Bearer ".concat(globe.token)
+      }
+    }).then(function (response) {
       if (response.data.message === "success") {
         globe.ratingAsisten = response.data.ratingAsisten;
         globe.gajiAsisten = response.data.gajiAsisten;

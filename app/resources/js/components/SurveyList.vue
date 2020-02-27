@@ -7,8 +7,33 @@
 
 <script>
     export default {
+        props: [
+            'token',
+        ],
+
+        data() {
+            return {
+            }
+        },
+
         mounted() {
-            console.log('Component mounted.')
+            
+            const globe = this;
+
+            globe.$axios.get('/api/getSurveyList', {
+                    headers: {
+                        'Authorization': `Bearer ${globe.token}`
+                    }
+                }).then(response => {
+                if(response.data.message === "success") {
+                    globe.ratingAsisten = response.data.ratingAsisten;
+                    globe.gajiAsisten = response.data.gajiAsisten;
+                } else {
+                    globe.$toasted.global.showError({
+                        message: response.data.message
+                    });
+                }
+            });
         }
     }
 </script>

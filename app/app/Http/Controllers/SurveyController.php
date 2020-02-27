@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Auth;
 use App\Survey;
 use Illuminate\Http\Request;
 
@@ -14,7 +15,20 @@ class SurveyController extends Controller
      */
     public function index()
     {
-        //
+        $currentUser = Auth::user();
+        if($currentUser->type === "admin") {
+
+            return response()->json([
+                'message'=> 'success',
+                'surveyList' => Survey::all(),
+            ], 200);
+
+        } else {
+
+            return response()->json([
+                'message'=> 'Authentication Failed',
+            ], 200);
+        }
     }
 
     /**
