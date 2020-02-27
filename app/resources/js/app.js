@@ -1,29 +1,42 @@
-/**
- * First we will load all of this project's JavaScript dependencies which
- * includes Vue and other libraries. It is a great starting point when
- * building robust, powerful web applications using Vue and Laravel.
- */
+import Toasted from 'vue-toasted';
+import Axios from 'axios';
 
 require('./bootstrap');
-
 window.Vue = require('vue');
 
-/**
- * The following block of code may be used to automatically register your
- * Vue components. It will recursively scan this directory for the Vue
- * components and automatically register them with their "basename".
- *
- * Eg. ./components/ExampleComponent.vue -> <example-component></example-component>
- */
+Vue.use(Toasted);
+Vue.prototype.$axios = Axios;
+
+Vue.toasted.register('showError',
+    (payload) => {
+        if(! payload.message) {
+    	    return "Sorry error happened, please try again"
+        }
+        return payload.message;
+    },
+    {
+      type: "error", 
+      position: "bottom-center",
+      duration : 2000
+    }
+)
+
+Vue.toasted.register('showSuccess',
+    (payload) => {
+        if(! payload.message) {
+    	    return "Request successfully processed"
+        }
+        return payload.message;
+    },
+    {
+      type: "success",
+      position: "bottom-center",
+      duration : 2000
+    }
+)
 
 const files = require.context('./', true, /\.vue$/i)
 files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
-
-/**
- * Next, we will create a fresh Vue application instance and attach it to
- * the page. Then, you may begin adding components to this application
- * or customize the JavaScript scaffolding to fit your unique needs.
- */
 
 const app = new Vue({
     el: '#app',
