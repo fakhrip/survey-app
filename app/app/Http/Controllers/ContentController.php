@@ -35,7 +35,27 @@ class ContentController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $contentIds = '';
+        for ($i=0; $i<count($request->all()); $i++) { 
+            
+            $content = Content::create([
+                'type'          => $request->input($i.'.type'),
+                'question'      => $request->input($i.'.question'),
+                'right_answer'  => $request->input($i.'.right_answer'),
+                'choices'       => implode("-", $request->input($i.'.choices')),
+                'isRequired'    => $request->input($i.'.isRequired'),
+            ]);
+
+            $contentIds .= $content->id;
+
+            if($i !== count($request->all())-1)
+                $contentIds .= '-';
+        }
+
+        return response()->json([
+            'message'=> 'success',
+            'contentIds' => $contentIds,
+        ], 200);
     }
 
     /**

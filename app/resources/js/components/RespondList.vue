@@ -7,6 +7,10 @@
 
 <script>
     export default {
+        props: [
+            'token',
+        ],
+        
         mounted() {
             console.log('Component mounted.')
         }

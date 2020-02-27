@@ -1916,6 +1916,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
+  props: ['token'],
   mounted: function mounted() {
     console.log('Component mounted.');
   }
@@ -2087,6 +2088,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
+  props: ['token'],
   data: function data() {
     return {
       surveyForm: {
@@ -2137,28 +2139,42 @@ __webpack_require__.r(__webpack_exports__);
         return;
       }
 
-      for (var i = 0; i < contents.length; i++) {
-        if (contents[i].type == '') {
+      for (var i = 0; i < globe.contents.length; i++) {
+        if (globe.contents[i].type == '') {
           globe.$toasted.global.showError({
             message: "Choose type in all contents"
           });
           return;
         }
 
-        if (contents[i].question == '') {
+        if (globe.contents[i].question == '') {
           globe.$toasted.global.showError({
             message: "Question in all contents can't be empty"
           });
           return;
         }
 
-        if (contents[i].choices.length < 1) {
+        if (globe.contents[i].choices.length < 1) {
           globe.$toasted.global.showError({
             message: "There should be at least 1 option"
           });
           return;
         }
       }
+
+      globe.$axios.post('/api/addContents', globe.contents, {
+        headers: {
+          'Authorization': "Bearer ".concat(globe.token)
+        }
+      }).then(function (response) {
+        if (response.data.message === "success") {
+          globe.surveyForm.content_ids = response.data.contentIds;
+        } else {
+          globe.$toasted.global.showError({
+            message: response.data.message
+          });
+        }
+      });
     }
   }
 });

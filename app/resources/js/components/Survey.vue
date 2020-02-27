@@ -154,6 +154,10 @@
 
 <script>
     export default {
+        props: [
+            'token',
+        ],
+
         data() {
             return {
                 surveyForm: {
@@ -210,28 +214,44 @@
                     return;
                 }
 
-                for(let i=0; i<contents.length; i++) {
-                    if(contents[i].type == '') {
+                for(let i=0; i<globe.contents.length; i++) {
+                    if(globe.contents[i].type == '') {
                         globe.$toasted.global.showError({
                             message: "Choose type in all contents"
                         });
                         return;
                     }
 
-                    if(contents[i].question == '') {
+                    if(globe.contents[i].question == '') {
                         globe.$toasted.global.showError({
                             message: "Question in all contents can't be empty"
                         });
                         return;
                     }
 
-                    if(contents[i].choices.length < 1) {
+                    if(globe.contents[i].choices.length < 1) {
                         globe.$toasted.global.showError({
                             message: "There should be at least 1 option"
                         });
                         return;
                     }
                 }
+
+                globe
+                    .$axios.post('/api/addContents', globe.contents, {
+                        headers: {
+                            'Authorization': `Bearer ${globe.token}`
+                        }
+                    }).then(response => {
+
+                        if(response.data.message === "success") {
+                            globe.surveyForm.content_ids = response.data.contentIds;
+                        } else {
+                            globe.$toasted.global.showError({
+                                message: response.data.message
+                            });
+                        }
+                    });
             },
         }
     }
