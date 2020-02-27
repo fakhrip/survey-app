@@ -24,19 +24,21 @@
             
             const globe = this;
 
-            globe.$axios.get('/api/getSurveyList', {
+            globe
+                .$axios.get('/api/getSurveyList', {
                     headers: {
                         'Authorization': `Bearer ${globe.token}`
                     }
                 }).then(response => {
-                if(response.data.message === "success") {
-                    globe.surveyList = response.data.surveyList;
-                } else {
-                    globe.$toasted.global.showError({
-                        message: response.data.message
-                    });
-                }
-            });
+
+                    if(response.data.message === "success") {
+                        globe.surveyList = response.data.surveyList;
+                    } else {
+                        globe.$toasted.global.showError({
+                            message: response.data.message
+                        });
+                    }
+                });
         }
     }
 </script>

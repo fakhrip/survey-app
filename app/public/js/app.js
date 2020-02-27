@@ -2056,6 +2056,20 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -2075,7 +2089,62 @@ __webpack_require__.r(__webpack_exports__);
       }]
     };
   },
-  mounted: function mounted() {}
+  methods: {
+    saveSurvey: function saveSurvey() {
+      var globe = this;
+
+      if (globe.surveyForm.title == '') {
+        globe.$toasted.global.showError({
+          message: "Title can't be empty"
+        });
+        return;
+      }
+
+      if (globe.surveyForm.description == '') {
+        globe.$toasted.global.showError({
+          message: "Description can't be empty"
+        });
+        return;
+      }
+
+      if (globe.surveyForm.duration == '') {
+        globe.$toasted.global.showError({
+          message: "Duration can't be empty"
+        });
+        return;
+      }
+
+      if (globe.contents.length < 1) {
+        globe.$toasted.global.showError({
+          message: "There should be at least 1 content"
+        });
+        return;
+      }
+
+      for (var i = 0; i < contents.length; i++) {
+        if (contents[i].type == '') {
+          globe.$toasted.global.showError({
+            message: "Choose type in all contents"
+          });
+          return;
+        }
+
+        if (contents[i].question == '') {
+          globe.$toasted.global.showError({
+            message: "Question in all contents can't be empty"
+          });
+          return;
+        }
+
+        if (contents[i].choices.length < 1) {
+          globe.$toasted.global.showError({
+            message: "There should be at least 1 option"
+          });
+          return;
+        }
+      }
+    }
+  }
 });
 
 /***/ }),
@@ -37670,6 +37739,20 @@ var render = function() {
                 "div",
                 { staticClass: "w-full flex-row rounded-sm bg-gray-400 m-2" },
                 [
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-danger btn-block mb-2",
+                      attrs: { type: "button" },
+                      on: {
+                        click: function($event) {
+                          return _vm.contents.splice(index, 1)
+                        }
+                      }
+                    },
+                    [_vm._v("Delete this content")]
+                  ),
+                  _vm._v(" "),
                   _c("div", { staticClass: "flex items-center p-2" }, [
                     _vm._m(3, true),
                     _vm._v(" "),
@@ -37810,7 +37893,7 @@ var render = function() {
                               "div",
                               { staticClass: "flex items-center p-2" },
                               [
-                                _c("div", { staticClass: "w-1/3" }, [
+                                _c("div", { staticClass: "w-1/3 flex-row" }, [
                                   _c(
                                     "label",
                                     {
@@ -37822,6 +37905,33 @@ var render = function() {
                                         "\n                                    No. " +
                                           _vm._s(optionIndex + 1) +
                                           "\n                                "
+                                      )
+                                    ]
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "div",
+                                    { staticClass: "w-16 flex ml-auto" },
+                                    [
+                                      _c(
+                                        "button",
+                                        {
+                                          staticClass:
+                                            "btn btn-secondary btn-sm mr-2 mb-2 w-16",
+                                          attrs: { type: "button" },
+                                          on: {
+                                            click: function($event) {
+                                              return _vm.contents[
+                                                index
+                                              ].choices.splice(optionIndex, 1)
+                                            }
+                                          }
+                                        },
+                                        [
+                                          _vm._v(
+                                            "\n                                        Delete\n                                    "
+                                          )
+                                        ]
                                       )
                                     ]
                                   )
@@ -37876,7 +37986,7 @@ var render = function() {
                       _c(
                         "button",
                         {
-                          staticClass: "btn btn-primary ml-2 mb-2",
+                          staticClass: "btn btn-secondary ml-2 mb-2",
                           attrs: { type: "button" },
                           on: {
                             click: function($event) {
@@ -37915,7 +38025,21 @@ var render = function() {
               }
             }
           },
-          [_vm._v("Add new content")]
+          [_vm._v("\n            Add new content\n        ")]
+        ),
+        _vm._v(" "),
+        _c(
+          "button",
+          {
+            staticClass: "btn btn-primary btn-block m-2",
+            attrs: { type: "button" },
+            on: {
+              click: function($event) {
+                return _vm.saveSurvey()
+              }
+            }
+          },
+          [_vm._v("Save Survey")]
         )
       ],
       2

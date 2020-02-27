@@ -43,6 +43,10 @@
                 class="w-full flex-row h-auto mb-4">
                 <div class="w-full flex-row rounded-sm bg-gray-400 m-2">
 
+                    <button type="button" class="btn btn-danger btn-block mb-2" v-on:click="
+                        contents.splice(index, 1);
+                    ">Delete this content</button>
+
                     <div class="flex items-center p-2">
                         <div class="w-1/3">
                             <label class="block text-gray-600 font-bold text-right mb-1 mb-0 pr-4">
@@ -86,10 +90,17 @@
                         <div v-for="(option, optionIndex) in contents[index].choices" v-bind:key="optionIndex" 
                             class="w-full flex h-auto">
                             <div class="flex items-center p-2">
-                                <div class="w-1/3">
+                                <div class="w-1/3 flex-row">
                                     <label class="block text-gray-600 font-bold text-right mb-1 mb-0 pr-4">
                                         No. {{ optionIndex+1 }}
                                     </label>
+
+                                    <div class="w-16 flex ml-auto">
+                                        <button type="button" class="btn btn-secondary btn-sm mr-2 mb-2 w-16" 
+                                            v-on:click="contents[index].choices.splice(optionIndex, 1)">
+                                            Delete
+                                        </button>
+                                    </div>
                                 </div>
                                 <div class="w-2/3">
                                     <textarea v-model="contents[index].choices[optionIndex]" cols="30" rows="3"
@@ -99,7 +110,7 @@
                             </div>
                         </div>
 
-                        <button type="button" class="btn btn-primary ml-2 mb-2" v-on:click="
+                        <button type="button" class="btn btn-secondary ml-2 mb-2" v-on:click="
                             contents[index].choices.push('This is example answer')
                         ">Add new option</button>
                     </div>
@@ -116,8 +127,11 @@
                         'This is example answer',
                     ],
                     isRequired: false,
-                })
-            ">Add new content</button>
+                })">
+                Add new content
+            </button>
+
+            <button type="button" class="btn btn-primary btn-block m-2" v-on:click="saveSurvey()">Save Survey</button>
         </form>
     </div>
 </template>
@@ -147,9 +161,62 @@
                 ]
             };
         },
-        
-        mounted() {
-            
+
+        methods: {
+            saveSurvey: function() {
+                const globe = this;
+
+                if(globe.surveyForm.title == '') {
+                    globe.$toasted.global.showError({
+                        message: "Title can't be empty"
+                    });
+                    return;
+                }
+
+                if(globe.surveyForm.description == '') {
+                    globe.$toasted.global.showError({
+                        message: "Description can't be empty"
+                    });
+                    return;
+                }
+
+                if(globe.surveyForm.duration == '') {
+                    globe.$toasted.global.showError({
+                        message: "Duration can't be empty"
+                    });
+                    return;
+                }
+
+                if(globe.contents.length < 1) {
+                    globe.$toasted.global.showError({
+                        message: "There should be at least 1 content"
+                    });
+                    return;
+                }
+
+                for(let i=0; i<contents.length; i++) {
+                    if(contents[i].type == '') {
+                        globe.$toasted.global.showError({
+                            message: "Choose type in all contents"
+                        });
+                        return;
+                    }
+
+                    if(contents[i].question == '') {
+                        globe.$toasted.global.showError({
+                            message: "Question in all contents can't be empty"
+                        });
+                        return;
+                    }
+
+                    if(contents[i].choices.length < 1) {
+                        globe.$toasted.global.showError({
+                            message: "There should be at least 1 option"
+                        });
+                        return;
+                    }
+                }
+            },
         }
     }
 </script>
