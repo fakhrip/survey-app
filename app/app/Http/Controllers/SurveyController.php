@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Auth;
 use App\Survey;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class SurveyController extends Controller
 {
@@ -49,7 +50,17 @@ class SurveyController extends Controller
      */
     public function store(Request $request)
     {
-        
+        $survey = Survey::create([
+            'slug'        => Str::random(10),
+            'title'       => $request->title,
+            'description' => $request->description,
+            'content_ids' => $request->content_ids,
+            'duration'    => implode('|', (array) $request->duration),
+        ]);
+
+        return response()->json([
+            'message'=> 'success',
+        ], 200);
     }
 
     /**

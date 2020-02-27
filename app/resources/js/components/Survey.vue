@@ -245,7 +245,24 @@
                     }).then(response => {
 
                         if(response.data.message === "success") {
+
                             globe.surveyForm.content_ids = response.data.contentIds;
+                            globe
+                                .$axios.post('/api/addSurvey', globe.surveyForm, {
+                                    headers: {
+                                        'Authorization': `Bearer ${globe.token}`
+                                    }
+                                }).then(response => {
+
+                                    if(response.data.message === "success") {
+                                        window.location.replace("/home");
+                                    } else {
+                                        globe.$toasted.global.showError({
+                                            message: response.data.message
+                                        });
+                                    }
+                                });
+
                         } else {
                             globe.$toasted.global.showError({
                                 message: response.data.message

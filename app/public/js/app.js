@@ -2169,6 +2169,19 @@ __webpack_require__.r(__webpack_exports__);
       }).then(function (response) {
         if (response.data.message === "success") {
           globe.surveyForm.content_ids = response.data.contentIds;
+          globe.$axios.post('/api/addSurvey', globe.surveyForm, {
+            headers: {
+              'Authorization': "Bearer ".concat(globe.token)
+            }
+          }).then(function (response) {
+            if (response.data.message === "success") {
+              window.location.replace("/home");
+            } else {
+              globe.$toasted.global.showError({
+                message: response.data.message
+              });
+            }
+          });
         } else {
           globe.$toasted.global.showError({
             message: response.data.message
