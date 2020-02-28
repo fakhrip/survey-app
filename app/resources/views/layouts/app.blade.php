@@ -19,7 +19,7 @@
     <!-- Styles -->
     <link href="{{ mix('/css/app.css') }}" rel="stylesheet">
 </head>
-<body>
+<body class="overflow-x-hidden">
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm sticky top-0">
             <div class="container">
