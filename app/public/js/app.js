@@ -2280,6 +2280,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['token'],
   data: function data() {
@@ -2302,6 +2303,30 @@ __webpack_require__.r(__webpack_exports__);
         });
       }
     });
+  },
+  methods: {
+    deleteSurvey: function deleteSurvey($survey, $index) {
+      var globe = this;
+
+      if (confirm("Are you sure you want to delete this survey ?")) {
+        globe.$axios.post('/api/deleteSurvey', $survey, {
+          headers: {
+            'Authorization': "Bearer ".concat(globe.token)
+          }
+        }).then(function (response) {
+          if (response.data.message === "success") {
+            globe.surveyList.splice($index, 1);
+            globe.$toasted.global.showSuccess({
+              message: "Survey successfully deleted"
+            });
+          } else {
+            globe.$toasted.global.showError({
+              message: response.data.message
+            });
+          }
+        });
+      }
+    }
   }
 });
 
@@ -56009,7 +56034,7 @@ var render = function() {
     _c(
       "div",
       {
-        staticClass: "flex w-full h-full",
+        staticClass: "flex-row w-full h-full",
         class: [
           { visible: _vm.surveyList.length > 0 },
           { hidden: _vm.surveyList.length < 1 }
@@ -56020,7 +56045,7 @@ var render = function() {
           "div",
           {
             key: index,
-            staticClass: "w-full max-w-md m-auto flex-row h-auto mb-4"
+            staticClass: "w-full max-w-md m-auto flex-row h-auto pb-4"
           },
           [
             _c(
@@ -56109,7 +56134,12 @@ var render = function() {
                     "button",
                     {
                       staticClass: "btn btn-danger btn-block mt-2",
-                      attrs: { type: "button" }
+                      attrs: { type: "button" },
+                      on: {
+                        click: function($event) {
+                          return _vm.deleteSurvey(survey, index)
+                        }
+                      }
                     },
                     [_vm._v("Delete")]
                   )
@@ -68866,8 +68896,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! H:\survey-app\app\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! H:\survey-app\app\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /home/fai/Development/survey-app/app/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /home/fai/Development/survey-app/app/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

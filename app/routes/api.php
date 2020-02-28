@@ -17,6 +17,11 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::middleware('auth:api')->get('/getSurveyList', 'SurveyController@index');
-Route::middleware('auth:api')->post('/addSurvey', 'SurveyController@store');
+/*****************************************************************************************/
+/*                                  SURVEY API                                           */
+/**/ Route::middleware('auth:api')->get('/getSurveyList', 'SurveyController@index');   /**/
+/**/ Route::middleware('auth:api')->post('/addSurvey', 'SurveyController@store');      /**/
+/**/ Route::middleware('auth:api')->post('/deleteSurvey', 'SurveyController@destroy'); /**/
+/*****************************************************************************************/
+
 Route::middleware('auth:api')->post('/addContents', 'ContentController@store');

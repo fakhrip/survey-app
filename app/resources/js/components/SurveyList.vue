@@ -6,11 +6,11 @@
             <span>You have no survey, add one by clicking <span class="font-bold">Create new survey</span> button above</span>
         </div>
 
-        <div class="flex w-full h-full"
+        <div class="flex-row w-full h-full"
             :class="[{ 'visible' : surveyList.length > 0 },
                     { 'hidden' : surveyList.length < 1 }]">
             <div v-for="(survey, index) in surveyList" v-bind:key="index" 
-                class="w-full max-w-md m-auto flex-row h-auto mb-4">
+                class="w-full max-w-md m-auto flex-row h-auto pb-4">
                 <div class="w-full rounded-sm bg-yellow-400 flex p-2">
                     <div class="w-1/2 flex-row">
                         <div class="font-bold text-2xl text-black flex">
@@ -38,7 +38,8 @@
                         <a :href="'/survey/' + survey.slug">
                             <button type="button" class="btn btn-primary btn-block">View</button>
                         </a>
-                        <button type="button" class="btn btn-danger btn-block mt-2">Delete</button>
+                        <button type="button" class="btn btn-danger btn-block mt-2"
+                            v-on:click="deleteSurvey(survey, index)">Delete</button>
                     </div>
                 </div>
             </div>
@@ -77,6 +78,37 @@
                         });
                     }
                 });
+        },
+
+        methods: {
+            deleteSurvey: function($survey, $index) {
+
+                const globe = this;
+
+                if (confirm("Are you sure you want to delete this survey ?")) {
+                
+                    globe
+                        .$axios.post('/api/deleteSurvey', $survey, {
+                            headers: {
+                                'Authorization': `Bearer ${globe.token}`
+                            }
+                        }).then(response => {
+
+                            if(response.data.message === "success") {
+
+                                globe.surveyList.splice($index, 1);
+                                globe.$toasted.global.showSuccess({
+                                    message: "Survey successfully deleted"
+                                });
+
+                            } else {
+                                globe.$toasted.global.showError({
+                                    message: response.data.message
+                                });
+                            }
+                        });
+                }
+            }
         }
     }
 </script>

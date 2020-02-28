@@ -105,6 +105,10 @@ class SurveyController extends Controller
      */
     public function destroy(Survey $survey)
     {
-        //
+        $survey->delete();
+
+        return response()->json([
+            'message'=> 'success',
+        ], 200);
     }
 }
