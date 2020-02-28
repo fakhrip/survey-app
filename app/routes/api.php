@@ -33,4 +33,4 @@ Route::middleware('auth:api')->get('/checkExistence', 'RespondController@show');
 
 Route::middleware('auth:api')->post('/addAnswers', 'AnswerController@store');
 
-Route::middleware('auth:api')->get('/addRespond', 'RespondController@store');
+Route::middleware('auth:api')->post('/addRespond', 'RespondController@store');

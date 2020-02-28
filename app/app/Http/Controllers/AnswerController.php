@@ -35,7 +35,24 @@ class AnswerController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $answer_ids = '';
+        for ($i=0; $i<count($request->all()); $i++) { 
+            
+            $answer = Answer::create([
+                'answer'        => $request->input($i.'.answer'),
+                'content_id'    => $request->input($i.'.content_id'),
+            ]);
+
+            $answer_ids .= $answer->id;
+
+            if($i !== count($request->all())-1)
+                $answer_ids .= '-';
+        }
+
+        return response()->json([
+            'message'=> 'success',
+            'answer_ids' => $answer_ids,
+        ], 200);
     }
 
     /**
