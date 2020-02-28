@@ -42,7 +42,7 @@ class ContentController extends Controller
                 'type'          => $request->input($i.'.type'),
                 'question'      => $request->input($i.'.question'),
                 'right_answer'  => $request->input($i.'.right_answer'),
-                'choices'       => implode("-", $request->input($i.'.choices')),
+                'choices'       => implode("|", $request->input($i.'.choices')),
                 'isRequired'    => $request->input($i.'.isRequired'),
             ]);
 
@@ -64,9 +64,14 @@ class ContentController extends Controller
      * @param  \App\Content  $content
      * @return \Illuminate\Http\Response
      */
-    public function show(Content $content)
+    public function show($id)
     {
-        //
+        $content = Content::where('id', '=', $id)->first();
+
+        return response()->json([
+            'message'=> 'success',
+            'content' => $content,
+        ], 200);
     }
 
     /**
