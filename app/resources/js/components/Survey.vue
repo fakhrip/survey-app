@@ -255,6 +255,9 @@
                                 }).then(response => {
 
                                     if(response.data.message === "success") {
+                                        globe.$toasted.global.showSuccess({
+                                            message: "Survey successfully created"
+                                        });
                                         window.location.replace("/home");
                                     } else {
                                         globe.$toasted.global.showError({

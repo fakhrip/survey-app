@@ -1,11 +1,13 @@
 import Toasted from 'vue-toasted';
 import VCalendar from 'v-calendar';
+import Moment from 'moment';
 import Axios from 'axios';
 
 require('./bootstrap');
 window.Vue = require('vue');
 
 Vue.use(Toasted);
+Vue.prototype.$moment = Moment;
 Vue.prototype.$axios = Axios;
 
 Vue.toasted.register('showError',
