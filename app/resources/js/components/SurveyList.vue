@@ -35,8 +35,10 @@
                         </div>
                     </div>
                     <div class="w-1/2 flex-row">
-                        <button type="button" class="btn btn-primary btn-block">View</button>
-                        <button type="button" class="btn btn-danger btn-block">Delete</button>
+                        <a :href="'/survey/' + survey.slug">
+                            <button type="button" class="btn btn-primary btn-block">View</button>
+                        </a>
+                        <button type="button" class="btn btn-danger btn-block mt-2">Delete</button>
                     </div>
                 </div>
             </div>

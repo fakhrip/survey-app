@@ -1,5 +1,8 @@
 <?php
 
+use App\Survey;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -47,8 +50,22 @@ Route::group(['middleware' => ['auth']], function () {
             ]);
         } else {
 
-            return response('You are not allowed :D', 401)
-                ->header('Content-Type', 'text/plain');
+            return abort(403);
         }
     })->name('new_survey');
+    Route::get('/survey/{path}', function ($path) {
+
+        try {
+            $survey = Survey::where('slug', '=', $path)->firstOrFail();
+            
+            return view('survey_detail', [
+                'surveySlug' => $path,
+                'token' => updateToken()
+            ]);
+
+        } catch(ModelNotFoundException $e) {
+
+            return abort(404);
+        }
+    })->name('home');
 });
