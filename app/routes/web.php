@@ -59,13 +59,12 @@ Route::group(['middleware' => ['auth']], function () {
             $survey = Survey::where('slug', '=', $path)->firstOrFail();
             
             return view('survey_detail', [
-                'surveySlug' => $path,
-                'token' => updateToken()
+                'token' => updateToken(),
             ]);
 
         } catch(ModelNotFoundException $e) {
 
             return abort(404);
         }
-    })->name('home');
+    });
 });

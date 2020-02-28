@@ -2214,6 +2214,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['token'],
   mounted: function mounted() {
@@ -2348,10 +2352,141 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['token'],
+  data: function data() {
+    return {
+      currentSurvey: {},
+      contents: [],
+      answers: [],
+      userRespond: {
+        answer_ids: '',
+        survey_id: ''
+      },
+      isFinished: false
+    };
+  },
+  methods: {
+    finishSurvey: function finishSurvey() {
+      var globe = this;
+      globe.$axios.get('/api/addRespond', globe.userRespond, {
+        headers: {
+          'Authorization': "Bearer ".concat(globe.token)
+        }
+      }).then(function (response) {
+        if (response.data.message === "success") {
+          globe.isFinished = true;
+          globe.userRespond = response.data.respond;
+        } else {
+          globe.$toasted.global.showError({
+            message: response.data.message
+          });
+        }
+      });
+    }
+  },
   mounted: function mounted() {
-    console.log('Component mounted.');
+    var globe = this;
+    globe.$axios.get('/api/checkExistence/', {
+      headers: {
+        'Authorization': "Bearer ".concat(globe.token)
+      }
+    }).then(function (response) {
+      if (response.data.message === "success") {
+        globe.isFinished = response.data.isFinished;
+
+        if (!globe.isFinished) {
+          globe.$axios.get('/api/getSurvey/' + window.location.href.substring(window.location.href.lastIndexOf('/') + 1), {
+            headers: {
+              'Authorization': "Bearer ".concat(globe.token)
+            }
+          }).then(function (response) {
+            if (response.data.message === "success") {
+              globe.currentSurvey = response.data.survey;
+              var length = globe.currentSurvey.content_ids.split('-').length;
+
+              for (var i = 0; i < length; i++) {
+                var element = globe.currentSurvey.content_ids.split('-')[i];
+                globe.$axios.get('/api/getContent/' + element, {
+                  headers: {
+                    'Authorization': "Bearer ".concat(globe.token)
+                  }
+                }).then(function (response) {
+                  if (response.data.message === "success") {
+                    globe.contents.push(response.data.content);
+                    globe.answers.push({
+                      answer: '',
+                      content_id: response.data.content.id
+                    });
+                  } else {
+                    globe.$toasted.global.showError({
+                      message: response.data.message
+                    });
+                  }
+                });
+              }
+            } else {
+              globe.$toasted.global.showError({
+                message: response.data.message
+              });
+            }
+          });
+        } else {
+          globe.userRespond = response.data.respond;
+        }
+      } else {
+        globe.$toasted.global.showError({
+          message: response.data.message
+        });
+      }
+    });
   }
 });
 
@@ -55992,7 +56127,9 @@ var render = function() {
           }
         },
         [_vm._v("Edit this survey")]
-      )
+      ),
+      _vm._v(" "),
+      _c("div", { staticClass: "w-full " })
     ])
   ])
 }
@@ -56186,16 +56323,146 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
+  return _c("div", { staticClass: "flex w-full h-full" }, [
+    _c("div", { staticClass: "w-full max-w-md m-auto" }, [
+      _c(
+        "div",
+        {
+          staticClass: "w-auto flex-row m-auto",
+          class: [{ hidden: !_vm.isFinished }, { visible: _vm.isFinished }]
+        },
+        [
+          _c("span", { staticClass: "font-normal text-2xl text-black" }, [
+            _vm._v(
+              "\n                You have responded this survey\n            "
+            )
+          ]),
+          _vm._v(" "),
+          _vm._m(0)
+        ]
+      ),
+      _vm._v(" "),
+      _c("div", { staticClass: "w-full flex-row p-2" }, [
+        _c("div", { staticClass: "font-bold text-3xl text-black flex" }, [
+          _c("span", [
+            _vm._v(
+              "\n                    " +
+                _vm._s(_vm.currentSurvey.title) +
+                "\n                "
+            )
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "font-normal text-xl text-black flex mb-2" }, [
+          _c("span", [
+            _vm._v(
+              "\n                    " +
+                _vm._s(_vm.currentSurvey.description) +
+                "\n                "
+            )
+          ])
+        ])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "w-full rounded-full h-1 bg-yellow-400" }),
+      _vm._v(" "),
+      _c(
+        "div",
+        { staticClass: "w-full flex-row" },
+        _vm._l(_vm.contents, function(content, index) {
+          return _c(
+            "div",
+            { key: index, staticClass: "w-full m-auto flex-row h-auto mb-4" },
+            [
+              _c(
+                "div",
+                {
+                  staticClass:
+                    "w-full flex-row rounded-t-md bg-gray-400 p-2 mt-4"
+                },
+                [
+                  _c("div", { staticClass: "w-full flex" }, [
+                    _c(
+                      "span",
+                      {
+                        staticClass:
+                          "font-normal text-xl text-black whitespace-pre-wrap"
+                      },
+                      [_vm._v(_vm._s(content.question) + " ")]
+                    )
+                  ])
+                ]
+              ),
+              _vm._v(" "),
+              _c(
+                "div",
+                { staticClass: "w-full flex rounded-b-sm bg-gray-500 p-2" },
+                [
+                  _c("textarea", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.answers[index].answer,
+                        expression: "answers[index].answer"
+                      }
+                    ],
+                    staticClass:
+                      "resize-y resize-none text-lg bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full h-full py-2 px-2 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-teal-500",
+                    attrs: {
+                      cols: "30",
+                      rows: "3",
+                      type: "text",
+                      placeholder: "Write your answer here"
+                    },
+                    domProps: { value: _vm.answers[index].answer },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(
+                          _vm.answers[index],
+                          "answer",
+                          $event.target.value
+                        )
+                      }
+                    }
+                  })
+                ]
+              )
+            ]
+          )
+        }),
+        0
+      ),
+      _vm._v(" "),
+      _c(
+        "button",
+        {
+          staticClass: "btn btn-primary mt-4 btn-block",
+          attrs: { type: "button" },
+          on: {
+            click: function($event) {
+              return _vm.finishSurvey()
+            }
+          }
+        },
+        [_c("span", { staticClass: "text-sm" }, [_vm._v("Finish this survey")])]
+      )
+    ])
+  ])
 }
 var staticRenderFns = [
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "flex w-full h-full m-4" }, [
-      _c("div", { staticClass: "w-auto h-auto flex" })
-    ])
+    return _c(
+      "button",
+      { staticClass: "btn btn-primary mt-2", attrs: { type: "button" } },
+      [_c("span", { staticClass: "text-sm" }, [_vm._v("Download respond")])]
+    )
   }
 ]
 render._withStripped = true

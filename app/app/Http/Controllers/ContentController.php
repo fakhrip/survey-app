@@ -58,12 +58,6 @@ class ContentController extends Controller
         ], 200);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Content  $content
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
         $content = Content::where('id', '=', $id)->first();

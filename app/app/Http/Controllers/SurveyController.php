@@ -63,15 +63,14 @@ class SurveyController extends Controller
         ], 200);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Survey  $survey
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Survey $survey)
+    public function show($slug)
     {
-        //
+        $survey = Survey::where('slug', '=', $slug)->first();
+
+        return response()->json([
+            'message'=> 'success',
+            'survey'=> $survey,
+        ], 200);
     }
 
     /**
