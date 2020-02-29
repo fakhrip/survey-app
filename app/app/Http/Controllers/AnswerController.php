@@ -39,7 +39,7 @@ class AnswerController extends Controller
         for ($i=0; $i<count($request->all()); $i++) { 
             
             $answer = Answer::create([
-                'answer'        => $request->input($i.'.answer'),
+                'answer'        => is_array($request->input($i.'.answer')) ? implode('|', (array) $request->input($i.'.answer')) : $request->input($i.'.answer'),
                 'content_id'    => $request->input($i.'.content_id'),
             ]);
 
