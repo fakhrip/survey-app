@@ -39,10 +39,51 @@
                             </div>
                         </div>
 
-                        <div class="w-full flex rounded-b-sm bg-gray-500 p-2">
+                        <div class="w-full flex rounded-b-sm bg-gray-500 p-2"
+                            :class="[{ 'visible' : content.type == 0 },
+                                    { 'hidden' : content.type != 0 }]">
                             <textarea v-model="answers[index].answer" cols="30" rows="3"
                                     class="resize-y resize-none text-lg bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full h-full py-2 px-2 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-teal-500" 
                                     type="text" placeholder="Write your answer here"/>
+                        </div>
+
+                        <div class="w-full flex rounded-b-sm bg-gray-500 p-2"
+                            :class="[{ 'visible' : content.type == 1 },
+                                    { 'hidden' : content.type != 1 }]">
+                            <vc-date-picker
+                                v-model='answers[index].answer' 
+                                color="red" is-dark
+                                class="w-full flex"/>
+                        </div>
+
+                        <div class="w-full flex-row rounded-b-sm bg-gray-500 p-2"
+                            :class="[{ 'visible' : content.type == 2 },
+                                    { 'hidden' : content.type != 2 }]">
+                            <div v-for="(choice, choiceIndex) in content.choices.split('|')" v-bind:key="choiceIndex">
+                                <div class="w-full flex bg-gray-300 rounded-sm cursor-pointer p-2 mt-2 hover:bg-green-300"
+                                    :class="[{ 'bg-green-500 text-white' : answers[index].answer == choice },
+                                            { 'bg-gray-300 text-black' : answers[index].answer != choice }]"
+                                    v-on:click="answers[index].answer = choice">
+                                    <span class="text-lg font-normal">
+                                        {{ choice }}
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="w-full flex-row rounded-b-sm bg-gray-500 p-2"
+                            :class="[{ 'visible' : content.type == 3 },
+                                    { 'hidden' : content.type != 3 }]">
+                            <div v-for="(choice, choiceIndex) in content.choices.split('|')" v-bind:key="choiceIndex">
+                                <div class="w-full flex bg-gray-300 rounded-sm cursor-pointer p-2 mt-2 hover:bg-green-300"
+                                    :class="[{ 'bg-green-500 text-white' : Array.isArray(answers[index].answer) ? answers[index].answer.includes(choice) : false },
+                                            { 'bg-gray-300 text-black' : Array.isArray(answers[index].answer) ? !answers[index].answer.includes(choice) : true }]"
+                                    v-on:click="pushChoice(choice, index)">
+                                    <span class="text-lg font-normal">
+                                        {{ choice }}
+                                    </span>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -77,6 +118,26 @@
         },
 
         methods: {
+
+            pushChoice: function($choice, $index) {
+
+                const globe = this
+
+                if(!Array.isArray(globe.answers[$index].answer)) {
+                    globe.answers[$index].answer = [];
+
+                    if(!globe.answers[$index].answer.includes($choice))
+                        globe.answers[$index].answer.push($choice)
+                    else 
+                        globe.answers[$index].answer.splice(globe.answers[$index].answer.indexOf($choice), 1);
+                } else {
+
+                    if(!globe.answers[$index].answer.includes($choice))
+                        globe.answers[$index].answer.push($choice)
+                    else 
+                        globe.answers[$index].answer.splice(globe.answers[$index].answer.indexOf($choice), 1);
+                } 
+            },
 
             finishSurvey: function() {
 

@@ -2403,6 +2403,47 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['token'],
   data: function data() {
@@ -2418,6 +2459,16 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   methods: {
+    pushChoice: function pushChoice($choice, $index) {
+      var globe = this;
+
+      if (!Array.isArray(globe.answers[$index].answer)) {
+        globe.answers[$index].answer = [];
+        if (!globe.answers[$index].answer.includes($choice)) globe.answers[$index].answer.push($choice);else globe.answers[$index].answer.splice(globe.answers[$index].answer.indexOf($choice), 1);
+      } else {
+        if (!globe.answers[$index].answer.includes($choice)) globe.answers[$index].answer.push($choice);else globe.answers[$index].answer.splice(globe.answers[$index].answer.indexOf($choice), 1);
+      }
+    },
     finishSurvey: function finishSurvey() {
       var globe = this;
       globe.$axios.post('/api/addAnswers', globe.answers, {
@@ -56438,7 +56489,13 @@ var render = function() {
                   _vm._v(" "),
                   _c(
                     "div",
-                    { staticClass: "w-full flex rounded-b-sm bg-gray-500 p-2" },
+                    {
+                      staticClass: "w-full flex rounded-b-sm bg-gray-500 p-2",
+                      class: [
+                        { visible: content.type == 0 },
+                        { hidden: content.type != 0 }
+                      ]
+                    },
                     [
                       _c("textarea", {
                         directives: [
@@ -56472,6 +56529,139 @@ var render = function() {
                         }
                       })
                     ]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    {
+                      staticClass: "w-full flex rounded-b-sm bg-gray-500 p-2",
+                      class: [
+                        { visible: content.type == 1 },
+                        { hidden: content.type != 1 }
+                      ]
+                    },
+                    [
+                      _c("vc-date-picker", {
+                        staticClass: "w-full flex",
+                        attrs: { color: "red", "is-dark": "" },
+                        model: {
+                          value: _vm.answers[index].answer,
+                          callback: function($$v) {
+                            _vm.$set(_vm.answers[index], "answer", $$v)
+                          },
+                          expression: "answers[index].answer"
+                        }
+                      })
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    {
+                      staticClass:
+                        "w-full flex-row rounded-b-sm bg-gray-500 p-2",
+                      class: [
+                        { visible: content.type == 2 },
+                        { hidden: content.type != 2 }
+                      ]
+                    },
+                    _vm._l(content.choices.split("|"), function(
+                      choice,
+                      choiceIndex
+                    ) {
+                      return _c("div", { key: choiceIndex }, [
+                        _c(
+                          "div",
+                          {
+                            staticClass:
+                              "w-full flex bg-gray-300 rounded-sm cursor-pointer p-2 mt-2 hover:bg-green-300",
+                            class: [
+                              {
+                                "bg-green-500 text-white":
+                                  _vm.answers[index].answer == choice
+                              },
+                              {
+                                "bg-gray-300 text-black":
+                                  _vm.answers[index].answer != choice
+                              }
+                            ],
+                            on: {
+                              click: function($event) {
+                                _vm.answers[index].answer = choice
+                              }
+                            }
+                          },
+                          [
+                            _c("span", { staticClass: "text-lg font-normal" }, [
+                              _vm._v(
+                                "\n                                    " +
+                                  _vm._s(choice) +
+                                  "\n                                "
+                              )
+                            ])
+                          ]
+                        )
+                      ])
+                    }),
+                    0
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    {
+                      staticClass:
+                        "w-full flex-row rounded-b-sm bg-gray-500 p-2",
+                      class: [
+                        { visible: content.type == 3 },
+                        { hidden: content.type != 3 }
+                      ]
+                    },
+                    _vm._l(content.choices.split("|"), function(
+                      choice,
+                      choiceIndex
+                    ) {
+                      return _c("div", { key: choiceIndex }, [
+                        _c(
+                          "div",
+                          {
+                            staticClass:
+                              "w-full flex bg-gray-300 rounded-sm cursor-pointer p-2 mt-2 hover:bg-green-300",
+                            class: [
+                              {
+                                "bg-green-500 text-white": Array.isArray(
+                                  _vm.answers[index].answer
+                                )
+                                  ? _vm.answers[index].answer.includes(choice)
+                                  : false
+                              },
+                              {
+                                "bg-gray-300 text-black": Array.isArray(
+                                  _vm.answers[index].answer
+                                )
+                                  ? !_vm.answers[index].answer.includes(choice)
+                                  : true
+                              }
+                            ],
+                            on: {
+                              click: function($event) {
+                                return _vm.pushChoice(choice, index)
+                              }
+                            }
+                          },
+                          [
+                            _c("span", { staticClass: "text-lg font-normal" }, [
+                              _vm._v(
+                                "\n                                    " +
+                                  _vm._s(choice) +
+                                  "\n                                "
+                              )
+                            ])
+                          ]
+                        )
+                      ])
+                    }),
+                    0
                   )
                 ]
               )
