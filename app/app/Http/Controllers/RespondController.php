@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Auth;
+use App\Survey;
 use App\Respond;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -72,15 +73,16 @@ class RespondController extends Controller
         ], 200);
     }
 
-    public function show()
+    public function show($slug)
     {
         $currentUser = Auth::user();
         $isFinished = false;
         $respond = null;
 
         try {
-         
-            $respond = Respond::where('user_id', '=', $currentUser->id)->firstOrFail();
+        
+            $respond = Respond::where('survey_id', '=', Survey::where('slug', '=', $slug)->first()->id)
+                ->where('user_id', '=', $currentUser->id)->firstOrFail();
             $isFinished = true;
 
         } catch(ModelNotFoundException $e) {

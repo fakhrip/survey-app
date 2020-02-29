@@ -29,7 +29,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::middleware('auth:api')->post('/addContents', 'ContentController@store');
 Route::middleware('auth:api')->get('/getContent/{id}', 'ContentController@show');
 
-Route::middleware('auth:api')->get('/checkExistence', 'RespondController@show');
+Route::middleware('auth:api')->get('/checkExistence/{slug}', 'RespondController@show');
 
 Route::middleware('auth:api')->post('/addAnswers', 'AnswerController@store');
 

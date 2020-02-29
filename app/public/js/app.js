@@ -2453,7 +2453,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   mounted: function mounted() {
     var globe = this;
-    globe.$axios.get('/api/checkExistence/', {
+    globe.$axios.get('/api/checkExistence/' + window.location.href.substring(window.location.href.lastIndexOf('/') + 1), {
       headers: {
         'Authorization': "Bearer ".concat(globe.token)
       }

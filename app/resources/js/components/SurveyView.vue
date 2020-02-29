@@ -127,7 +127,7 @@
             const globe = this;
 
             globe
-                .$axios.get('/api/checkExistence/', {
+                .$axios.get('/api/checkExistence/'+(window.location.href.substring(window.location.href.lastIndexOf('/') + 1)), {
                     headers: {
                         'Authorization': `Bearer ${globe.token}`
                     }
