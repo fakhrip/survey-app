@@ -165,7 +165,6 @@
 
                                         globe.isFinished = true;
                                         globe.userRespond = response.data.respond;
-                                        location.reload(); 
 
                                     } else {
                                         globe.$toasted.global.showError({

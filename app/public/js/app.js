@@ -2487,7 +2487,6 @@ __webpack_require__.r(__webpack_exports__);
             if (response.data.message === "success") {
               globe.isFinished = true;
               globe.userRespond = response.data.respond;
-              location.reload();
             } else {
               globe.$toasted.global.showError({
                 message: response.data.message
