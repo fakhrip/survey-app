@@ -2443,9 +2443,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['token'],
   data: function data() {
@@ -56455,11 +56452,9 @@ var render = function() {
         [
           _c("span", { staticClass: "font-normal text-2xl text-black" }, [
             _vm._v(
-              "\n                You have responded this survey\n            "
+              "\n                Thanks for responding to this survey\n            "
             )
-          ]),
-          _vm._v(" "),
-          _vm._m(0)
+          ])
         ]
       ),
       _vm._v(" "),
@@ -56710,18 +56705,7 @@ var render = function() {
     ])
   ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "button",
-      { staticClass: "btn btn-primary mt-2", attrs: { type: "button" } },
-      [_c("span", { staticClass: "text-sm" }, [_vm._v("Download respond")])]
-    )
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 

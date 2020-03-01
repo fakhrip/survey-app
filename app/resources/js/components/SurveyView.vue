@@ -20,11 +20,8 @@
                 :class="[{ 'hidden' : !isFinished },
                         { 'visible' : isFinished }]">
                 <span class="font-normal text-2xl text-black">
-                    You have responded this survey
+                    Thanks for responding to this survey
                 </span>
-                <button type="button" class="btn btn-primary mt-2">
-                    <span class="text-sm">Download respond</span> 
-                </button>
             </div>
 
             <div class="w-full flex-row"
