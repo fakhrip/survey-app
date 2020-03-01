@@ -24,9 +24,17 @@
                 </span>
             </div>
 
+            <div class="w-auto flex-row m-auto p-2 pt-4"
+                :class="[{ 'hidden' : !isExpired },
+                        { 'visible' : isExpired }]">
+                <span class="font-normal text-2xl text-black">
+                    Sorry, whether the survey is not available yet or it has been ended
+                </span>
+            </div>
+
             <div class="w-full flex-row"
-                :class="[{ 'visible' : !isFinished },
-                        { 'hidden' : isFinished }]">
+                :class="[{ 'visible' : !isFinished && !isExpired },
+                        { 'hidden' : isFinished || isExpired }]">
                 <div class="w-full flex-row">
                     <div v-for="(content, index) in contents" v-bind:key="index" 
                         class="w-full m-auto flex-row h-auto mb-4">
@@ -113,6 +121,7 @@
                     survey_id: '',
                 },
                 isFinished: false,
+                isExpired: false,
             }
         },
 
@@ -212,36 +221,57 @@
                         if(!globe.isFinished) {
 
                             globe
-                                .$axios.get('/api/getSurvey/'+(window.location.href.substring(window.location.href.lastIndexOf('/') + 1)), {
+                                .$axios.get('/api/checkDate/'+(window.location.href.substring(window.location.href.lastIndexOf('/') + 1)), {
                                     headers: {
                                         'Authorization': `Bearer ${globe.token}`
-                                    } 
+                                    }
                                 }).then(response => {
-                
+
                                     if(response.data.message === "success") {
-
-                                        globe.currentSurvey = response.data.survey;
                                         
-                                        var length = globe.currentSurvey.content_ids.split('-').length;
-                                        for (let i = 0; i<length; i++) {
+                                        globe.isExpired = response.data.isExpired; 
 
-                                            const element = globe.currentSurvey.content_ids.split('-')[i];
-                                            
+                                        if(!globe.isExpired) {
+
                                             globe
-                                                .$axios.get('/api/getContent/'+element, {
+                                                .$axios.get('/api/getSurvey/'+(window.location.href.substring(window.location.href.lastIndexOf('/') + 1)), {
                                                     headers: {
                                                         'Authorization': `Bearer ${globe.token}`
-                                                    }
+                                                    } 
                                                 }).then(response => {
-
+                                
                                                     if(response.data.message === "success") {
 
-                                                        globe.contents.push(response.data.content)
+                                                        globe.currentSurvey = response.data.survey;
+                                                        
+                                                        var length = globe.currentSurvey.content_ids.split('-').length;
+                                                        for (let i = 0; i<length; i++) {
 
-                                                        globe.answers.push({
-                                                            answer: '',
-                                                            content_id: response.data.content.id,
-                                                        })
+                                                            const element = globe.currentSurvey.content_ids.split('-')[i];
+                                                            
+                                                            globe
+                                                                .$axios.get('/api/getContent/'+element, {
+                                                                    headers: {
+                                                                        'Authorization': `Bearer ${globe.token}`
+                                                                    }
+                                                                }).then(response => {
+
+                                                                    if(response.data.message === "success") {
+
+                                                                        globe.contents.push(response.data.content)
+
+                                                                        globe.answers.push({
+                                                                            answer: '',
+                                                                            content_id: response.data.content.id,
+                                                                        })
+
+                                                                    } else {
+                                                                        globe.$toasted.global.showError({
+                                                                            message: response.data.message
+                                                                        });
+                                                                    }
+                                                                });
+                                                        }
 
                                                     } else {
                                                         globe.$toasted.global.showError({
@@ -257,6 +287,7 @@
                                         });
                                     }
                                 });
+
                         } else {
 
                             globe.userRespond = response.data.respond;

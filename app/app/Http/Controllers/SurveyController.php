@@ -83,17 +83,21 @@ class SurveyController extends Controller
     {
         //
     }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Survey  $survey
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Survey $survey)
+    
+    public function isExpired($slug)
     {
-        //
+        $survey = Survey::where('slug', '=', $slug)->first();
+
+        $currentDate = date('Y-m-d');
+        $currentDate = date('Y-m-d', strtotime($currentDate));
+        
+        $dateFrom = date('Y-m-d', strtotime(explode("|", $survey->duration)[0]));
+        $dateTo = date('Y-m-d', strtotime(explode("|", $survey->duration)[1]));
+
+        return response()->json([
+            'message'=> 'success',
+            'isExpired'=> !(($currentDate >= $dateFrom) && ($currentDate <= $dateTo)),
+        ], 200);
     }
 
     /**
