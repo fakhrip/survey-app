@@ -27,10 +27,18 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 /**/ Route::middleware('auth:api')->post('/deleteSurvey', 'SurveyController@destroy');      /**/
 /**********************************************************************************************/
 
-Route::middleware('auth:api')->get('/getContent/{id}', 'ContentController@show');
-Route::middleware('auth:api')->post('/addContents', 'ContentController@store');
+/***********************************************************************************************/
+/*                                  CONTENT API                                                */
+/***********************************************************************************************/
+/**/ Route::middleware('auth:api')->get('/getContent/{id}', 'ContentController@show');       /**/
+/**/ Route::middleware('auth:api')->post('/addContents', 'ContentController@store');         /**/
+/***********************************************************************************************/
 
-Route::middleware('auth:api')->post('/addAnswers', 'AnswerController@store');
+/**********************************************************************************************/
+/*                                  ANSWER API                                                */
+/**********************************************************************************************/
+/**/ Route::middleware('auth:api')->post('/addAnswers', 'AnswerController@store');          /**/
+/**********************************************************************************************/
 
 /***********************************************************************************************/
 /*                                  RESPOND API                                                */
