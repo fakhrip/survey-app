@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use DB;
 use Auth;
 use App\Survey;
 use App\Respond;
@@ -17,7 +18,14 @@ class RespondController extends Controller
      */
     public function index()
     {
-        //
+        $responds = DB::table('responds')
+            ->join('surveys', 'responds.survey_id', '=', 'surveys.id')
+            ->select('responds.*', 'surveys.title', 'surveys.description')->get();
+
+        return response()->json([
+            'message'=> 'success',
+            'respondList' => $responds,
+        ], 200);
     }
 
     /**

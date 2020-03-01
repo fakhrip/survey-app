@@ -21,16 +21,20 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 /*                                  SURVEY API                                           */
 /*****************************************************************************************/
 /**/ Route::middleware('auth:api')->get('/getSurveyList', 'SurveyController@index');   /**/
+/**/ Route::middleware('auth:api')->get('/getSurvey/{slug}', 'SurveyController@show'); /**/
 /**/ Route::middleware('auth:api')->post('/addSurvey', 'SurveyController@store');      /**/
 /**/ Route::middleware('auth:api')->post('/deleteSurvey', 'SurveyController@destroy'); /**/
-/**/ Route::middleware('auth:api')->get('/getSurvey/{slug}', 'SurveyController@show'); /**/
 /*****************************************************************************************/
 
-Route::middleware('auth:api')->post('/addContents', 'ContentController@store');
 Route::middleware('auth:api')->get('/getContent/{id}', 'ContentController@show');
-
-Route::middleware('auth:api')->get('/checkExistence/{slug}', 'RespondController@show');
+Route::middleware('auth:api')->post('/addContents', 'ContentController@store');
 
 Route::middleware('auth:api')->post('/addAnswers', 'AnswerController@store');
 
-Route::middleware('auth:api')->post('/addRespond', 'RespondController@store');
+/***********************************************************************************************/
+/*                                  RESPOND API                                                */
+/***********************************************************************************************/
+/**/ Route::middleware('auth:api')->get('/checkExistence/{slug}', 'RespondController@show'); /**/
+/**/ Route::middleware('auth:api')->get('/getRespondList', 'RespondController@index');       /**/
+/**/ Route::middleware('auth:api')->post('/addRespond', 'RespondController@store');          /**/
+/***********************************************************************************************/

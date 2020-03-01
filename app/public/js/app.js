@@ -1915,10 +1915,56 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['token'],
+  data: function data() {
+    return {
+      respondList: []
+    };
+  },
   mounted: function mounted() {
-    console.log('Component mounted.');
+    var globe = this;
+    globe.$axios.get('/api/getRespondList', {
+      headers: {
+        'Authorization': "Bearer ".concat(globe.token)
+      }
+    }).then(function (response) {
+      if (response.data.message === "success") {
+        globe.respondList = response.data.respondList;
+      } else {
+        globe.$toasted.global.showError({
+          message: response.data.message
+        });
+      }
+    });
   }
 });
 
@@ -55598,18 +55644,91 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
+  return _c("div", { staticClass: "flex w-full h-full m-4" }, [
+    _c(
+      "div",
+      {
+        staticClass: "font-normal text-3xl text-gray-700 m-auto",
+        class: [
+          { hidden: _vm.respondList.length > 0 },
+          { visible: _vm.respondList.length < 1 }
+        ]
+      },
+      [_c("span", [_vm._v("You haven't responded to any survey")])]
+    ),
+    _vm._v(" "),
+    _c(
+      "div",
+      {
+        staticClass: "flex-row w-full h-full",
+        class: [
+          { visible: _vm.respondList.length > 0 },
+          { hidden: _vm.respondList.length < 1 }
+        ]
+      },
+      _vm._l(_vm.respondList, function(respond, index) {
+        return _c(
+          "div",
+          {
+            key: index,
+            staticClass: "w-full max-w-md m-auto flex-row h-auto pb-4"
+          },
+          [
+            _c(
+              "div",
+              { staticClass: "w-full rounded-sm bg-yellow-400 flex-row p-2" },
+              [
+                _c(
+                  "div",
+                  { staticClass: "font-bold text-2xl text-black flex" },
+                  [
+                    _c("span", [
+                      _vm._v(
+                        "\n                        " +
+                          _vm._s(respond.title) +
+                          "\n                    "
+                      )
+                    ])
+                  ]
+                ),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  { staticClass: "font-normal text-xl text-black flex mb-2" },
+                  [
+                    _c("span", [
+                      _vm._v(
+                        "\n                        " +
+                          _vm._s(respond.description) +
+                          "\n                    "
+                      )
+                    ])
+                  ]
+                ),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  { staticClass: "font-normal text-sm text-black flex" },
+                  [
+                    _c("span", [
+                      _vm._v(
+                        "\n                        Responded at " +
+                          _vm._s(_vm.$moment(respond.created_at).format("LL")) +
+                          "\n                    "
+                      )
+                    ])
+                  ]
+                )
+              ]
+            )
+          ]
+        )
+      }),
+      0
+    )
+  ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "flex w-full h-full m-4" }, [
-      _c("div", { staticClass: "w-auto h-auto flex" })
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
