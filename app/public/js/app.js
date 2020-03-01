@@ -2444,6 +2444,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['token'],
   data: function data() {
@@ -2471,6 +2473,19 @@ __webpack_require__.r(__webpack_exports__);
     },
     finishSurvey: function finishSurvey() {
       var globe = this;
+
+      for (var index = 0; index < globe.contents.length; index++) {
+        var content = globe.contents[index];
+        var answer = globe.answers[index];
+
+        if (content.isRequired && answer.answer == "") {
+          globe.$toasted.global.showError({
+            message: "Answer all required questions"
+          });
+          return;
+        }
+      }
+
       globe.$axios.post('/api/addAnswers', globe.answers, {
         headers: {
           'Authorization': "Bearer ".concat(globe.token)
@@ -56476,11 +56491,16 @@ var render = function() {
                       _c("div", { staticClass: "w-full flex" }, [
                         _c(
                           "span",
-                          {
-                            staticClass:
-                              "font-normal text-xl text-black whitespace-pre-wrap"
-                          },
-                          [_vm._v(_vm._s(content.question) + " ")]
+                          { staticClass: "font-normal text-xl text-black" },
+                          [
+                            _vm._v(
+                              "\n                                " +
+                                _vm._s(content.question) +
+                                " " +
+                                _vm._s(content.isRequired ? "(Required)" : "") +
+                                "\n                            "
+                            )
+                          ]
                         )
                       ])
                     ]
@@ -69400,8 +69420,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /home/fai/Development/survey-app/app/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /home/fai/Development/survey-app/app/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! H:\survey-app\app\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! H:\survey-app\app\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

@@ -35,7 +35,9 @@
                         class="w-full m-auto flex-row h-auto mb-4">
                         <div class="w-full flex-row rounded-t-md bg-gray-400 p-2 mt-4">
                             <div class="w-full flex">
-                                <span class="font-normal text-xl text-black whitespace-pre-wrap">{{ content.question }} </span>
+                                <span class="font-normal text-xl text-black">
+                                    {{ content.question }} {{ content.isRequired ? "(Required)" : "" }}
+                                </span>
                             </div>
                         </div>
 
@@ -142,6 +144,19 @@
             finishSurvey: function() {
 
                 const globe = this;
+
+                for (let index = 0; index < globe.contents.length; index++) {
+                    const content = globe.contents[index];
+                    const answer = globe.answers[index];
+                    
+                    if(content.isRequired && answer.answer == "") {
+
+                        globe.$toasted.global.showError({
+                            message: "Answer all required questions"
+                        });
+                        return;
+                    }
+                }
 
                 globe
                     .$axios.post('/api/addAnswers', globe.answers, {
