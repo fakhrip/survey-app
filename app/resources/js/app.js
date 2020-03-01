@@ -2,6 +2,7 @@ import Toasted from 'vue-toasted';
 import VCalendar from 'v-calendar';
 import Moment from 'moment';
 import Axios from 'axios';
+import VueQrcode from '@chenfengyuan/vue-qrcode';
 
 require('./bootstrap');
 window.Vue = require('vue');
@@ -41,6 +42,8 @@ Vue.toasted.register('showSuccess',
 Vue.use(VCalendar, {
     componentPrefix: 'vc',  // Use <vc-calendar /> instead of <v-calendar />
 });
+
+Vue.component(VueQrcode.name, VueQrcode);
 
 const files = require.context('./', true, /\.vue$/i)
 files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
