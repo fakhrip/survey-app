@@ -48,17 +48,24 @@ class SurveyController extends Controller
      */
     public function store(Request $request)
     {
-        $survey = Survey::create([
-            'slug'        => Str::random(10),
-            'title'       => $request->title,
-            'description' => $request->description,
-            'content_ids' => $request->content_ids,
-            'duration'    => implode('|', (array) $request->duration),
-        ]);
+        if(Auth::user()->type === "admin") {
 
-        return response()->json([
-            'message'=> 'success',
-        ], 200);
+            $survey = Survey::create([
+                'slug'        => Str::random(10),
+                'title'       => $request->title,
+                'description' => $request->description,
+                'content_ids' => $request->content_ids,
+                'duration'    => implode('|', (array) $request->duration),
+            ]);
+    
+            return response()->json([
+                'message'=> 'success',
+            ], 200);
+
+        } else {
+
+            return abort(403);
+        }
     }
 
     public function show($slug)
@@ -106,10 +113,17 @@ class SurveyController extends Controller
      */
     public function destroy(Survey $survey)
     {
-        $survey->delete();
+        if(Auth::user()->type === "admin") {
 
-        return response()->json([
-            'message'=> 'success',
-        ], 200);
+            $survey->delete();
+
+            return response()->json([
+                'message'=> 'success',
+            ], 200);
+
+        } else {
+
+            return abort(403);
+        }
     }
 }
