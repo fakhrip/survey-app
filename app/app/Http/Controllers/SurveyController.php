@@ -26,9 +26,7 @@ class SurveyController extends Controller
 
         } else {
 
-            return response()->json([
-                'message'=> 'Authentication Failed',
-            ], 200);
+            return abort(403);
         }
     }
 
