@@ -72,10 +72,27 @@ class SurveyController extends Controller
     {
         $survey = Survey::where('slug', '=', $slug)->first();
 
-        return response()->json([
-            'message'=> 'success',
-            'survey'=> $survey,
-        ], 200);
+        $currentDate = date('Y-m-d');
+        $currentDate = date('Y-m-d', strtotime($currentDate));
+        
+        $dateFrom = date('Y-m-d', strtotime(explode("|", $survey->duration)[0]));
+        $dateTo = date('Y-m-d', strtotime(explode("|", $survey->duration)[1]));
+
+        if(!(($currentDate >= $dateFrom) && ($currentDate <= $dateTo))) {
+
+            return response()->json([
+                'message'=> 'success',
+                'isExpired'=> true,
+            ], 200);
+
+        } else {
+
+            return response()->json([
+                'message'=> 'success',
+                'survey'=> $survey,
+                'isExpired'=> false,
+            ], 200);
+        }
     }
 
     /**
@@ -87,22 +104,6 @@ class SurveyController extends Controller
     public function edit(Survey $survey)
     {
         //
-    }
-    
-    public function isExpired($slug)
-    {
-        $survey = Survey::where('slug', '=', $slug)->first();
-
-        $currentDate = date('Y-m-d');
-        $currentDate = date('Y-m-d', strtotime($currentDate));
-        
-        $dateFrom = date('Y-m-d', strtotime(explode("|", $survey->duration)[0]));
-        $dateTo = date('Y-m-d', strtotime(explode("|", $survey->duration)[1]));
-
-        return response()->json([
-            'message'=> 'success',
-            'isExpired'=> !(($currentDate >= $dateFrom) && ($currentDate <= $dateTo)),
-        ], 200);
     }
 
     /**

@@ -221,64 +221,48 @@
                         if(!globe.isFinished) {
 
                             globe
-                                .$axios.get('/api/checkDate/'+(window.location.href.substring(window.location.href.lastIndexOf('/') + 1)), {
+                                .$axios.get('/api/getSurvey/'+(window.location.href.substring(window.location.href.lastIndexOf('/') + 1)), {
                                     headers: {
                                         'Authorization': `Bearer ${globe.token}`
-                                    }
+                                    } 
                                 }).then(response => {
-
+                
                                     if(response.data.message === "success") {
                                         
                                         globe.isExpired = response.data.isExpired; 
 
                                         if(!globe.isExpired) {
 
-                                            globe
-                                                .$axios.get('/api/getSurvey/'+(window.location.href.substring(window.location.href.lastIndexOf('/') + 1)), {
-                                                    headers: {
-                                                        'Authorization': `Bearer ${globe.token}`
-                                                    } 
-                                                }).then(response => {
-                                
-                                                    if(response.data.message === "success") {
+                                            globe.currentSurvey = response.data.survey;
+                                            
+                                            var length = globe.currentSurvey.content_ids.split('-').length;
+                                            for (let i = 0; i<length; i++) {
 
-                                                        globe.currentSurvey = response.data.survey;
-                                                        
-                                                        var length = globe.currentSurvey.content_ids.split('-').length;
-                                                        for (let i = 0; i<length; i++) {
-
-                                                            const element = globe.currentSurvey.content_ids.split('-')[i];
-                                                            
-                                                            globe
-                                                                .$axios.get('/api/getContent/'+element, {
-                                                                    headers: {
-                                                                        'Authorization': `Bearer ${globe.token}`
-                                                                    }
-                                                                }).then(response => {
-
-                                                                    if(response.data.message === "success") {
-
-                                                                        globe.contents.push(response.data.content)
-
-                                                                        globe.answers.push({
-                                                                            answer: '',
-                                                                            content_id: response.data.content.id,
-                                                                        })
-
-                                                                    } else {
-                                                                        globe.$toasted.global.showError({
-                                                                            message: response.data.message
-                                                                        });
-                                                                    }
-                                                                });
+                                                const element = globe.currentSurvey.content_ids.split('-')[i];
+                                                
+                                                globe
+                                                    .$axios.get('/api/getContent/'+element, {
+                                                        headers: {
+                                                            'Authorization': `Bearer ${globe.token}`
                                                         }
+                                                    }).then(response => {
 
-                                                    } else {
-                                                        globe.$toasted.global.showError({
-                                                            message: response.data.message
-                                                        });
-                                                    }
-                                                });
+                                                        if(response.data.message === "success") {
+
+                                                            globe.contents.push(response.data.content)
+
+                                                            globe.answers.push({
+                                                                answer: '',
+                                                                content_id: response.data.content.id,
+                                                            })
+
+                                                        } else {
+                                                            globe.$toasted.global.showError({
+                                                                message: response.data.message
+                                                            });
+                                                        }
+                                                    });
+                                            }
                                         }
 
                                     } else {
