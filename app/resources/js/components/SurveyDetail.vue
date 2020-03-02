@@ -100,7 +100,48 @@
         </div>
         <div class="w-1/2 h-full flex">
             <div class="w-full max-w-md m-auto">
-                
+                <div class="w-full rounded-full h-1 bg-gray-600"/>
+
+                <div class="w-full flex p-2">
+                    <span class="font-normal text-xl italic m-auto">
+                        There are {{ respondList.length }} responds
+                    </span>
+                </div>
+
+                <div class="w-full rounded-full h-1 bg-gray-600"/>
+
+                <div class="w-full flex-row mt-4">
+                    <div v-for="(respond, index) in respondList" v-bind:key="index" 
+                        class="w-full max-w-md m-auto flex-row h-auto pb-4">
+                        <div class="w-full rounded-sm bg-yellow-400 flex p-2">
+                            <div class="w-1/2 flex-row">
+                                <div class="font-bold text-2xl text-black flex">
+                                    <span>
+                                        {{ respond.name }}
+                                    </span>
+                                </div>
+                                <div class="font-normal text-xl text-black flex mb-2">
+                                    <span>
+                                        {{ respond.email }}
+                                    </span>
+                                </div>
+                                <div class="font-normal text-lg text-black flex mb-2">
+                                    <span>
+                                        {{ respond.ip_address }}
+                                    </span>
+                                </div>
+                                <div class="font-normal text-sm text-black flex">
+                                    <span>
+                                        Responded at {{ $moment(respond.created_at).format('LL')  }}
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="w-1/2 flex-row">
+                                <button type="button" class="btn btn-secondary btn-block mt-2">Download Response</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -117,6 +158,7 @@
                 currentSurvey: {}, 
                 contents: [],  
                 answers: [], 
+                respondList: [],
 
                 domain: window.location.hostname,
             }
@@ -150,6 +192,22 @@
             const globe = this;
 
             globe
+                .$axios.get('/api/getRespondList/'+(window.location.href.substring(window.location.href.lastIndexOf('/') + 1)), {
+                    headers: {
+                        'Authorization': `Bearer ${globe.token}`
+                    }
+                }).then(response => {
+
+                    if(response.data.message === "success") {
+                        globe.respondList = response.data.respondList;
+                    } else {
+                        globe.$toasted.global.showError({
+                            message: response.data.message
+                        });
+                    }
+                });
+
+            globe
                 .$axios.get('/api/getSurvey/'+(window.location.href.substring(window.location.href.lastIndexOf('/') + 1)), {
                     headers: {
                         'Authorization': `Bearer ${globe.token}`
@@ -157,36 +215,21 @@
                 }).then(response => {
 
                     if(response.data.message === "success") {
-
-                        globe.currentSurvey = response.data.survey;
                         
-                        var length = globe.currentSurvey.content_ids.split('-').length;
-                        for (let i = 0; i<length; i++) {
+                        globe.isExpired = response.data.isExpired; 
 
-                            const element = globe.currentSurvey.content_ids.split('-')[i];
+                        if(!globe.isExpired) {
+
+                            globe.currentSurvey = response.data.survey;
+                            globe.contents = response.data.contents;
                             
-                            globe
-                                .$axios.get('/api/getContent/'+element, {
-                                    headers: {
-                                        'Authorization': `Bearer ${globe.token}`
-                                    }
-                                }).then(response => {
+                            for (let i = 0; i<globe.contents.length; i++) {
 
-                                    if(response.data.message === "success") {
-
-                                        globe.contents.push(response.data.content)
-
-                                        globe.answers.push({
-                                            answer: '',
-                                            content_id: response.data.content.id,
-                                        })
-
-                                    } else {
-                                        globe.$toasted.global.showError({
-                                            message: response.data.message
-                                        });
-                                    }
-                                });
+                                globe.answers.push({
+                                    answer: '',
+                                    content_id: globe.contents[i].id,
+                                })
+                            }
                         }
 
                     } else {

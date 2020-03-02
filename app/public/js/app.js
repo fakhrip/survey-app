@@ -7879,6 +7879,47 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['token'],
   data: function data() {
@@ -7886,6 +7927,7 @@ __webpack_require__.r(__webpack_exports__);
       currentSurvey: {},
       contents: [],
       answers: [],
+      respondList: [],
       domain: window.location.hostname
     };
   },
@@ -7903,34 +7945,37 @@ __webpack_require__.r(__webpack_exports__);
   },
   mounted: function mounted() {
     var globe = this;
+    globe.$axios.get('/api/getRespondList/' + window.location.href.substring(window.location.href.lastIndexOf('/') + 1), {
+      headers: {
+        'Authorization': "Bearer ".concat(globe.token)
+      }
+    }).then(function (response) {
+      if (response.data.message === "success") {
+        globe.respondList = response.data.respondList;
+      } else {
+        globe.$toasted.global.showError({
+          message: response.data.message
+        });
+      }
+    });
     globe.$axios.get('/api/getSurvey/' + window.location.href.substring(window.location.href.lastIndexOf('/') + 1), {
       headers: {
         'Authorization': "Bearer ".concat(globe.token)
       }
     }).then(function (response) {
       if (response.data.message === "success") {
-        globe.currentSurvey = response.data.survey;
-        var length = globe.currentSurvey.content_ids.split('-').length;
+        globe.isExpired = response.data.isExpired;
 
-        for (var i = 0; i < length; i++) {
-          var element = globe.currentSurvey.content_ids.split('-')[i];
-          globe.$axios.get('/api/getContent/' + element, {
-            headers: {
-              'Authorization': "Bearer ".concat(globe.token)
-            }
-          }).then(function (response) {
-            if (response.data.message === "success") {
-              globe.contents.push(response.data.content);
-              globe.answers.push({
-                answer: '',
-                content_id: response.data.content.id
-              });
-            } else {
-              globe.$toasted.global.showError({
-                message: response.data.message
-              });
-            }
-          });
+        if (!globe.isExpired) {
+          globe.currentSurvey = response.data.survey;
+          globe.contents = response.data.contents;
+
+          for (var i = 0; i < globe.contents.length; i++) {
+            globe.answers.push({
+              answer: '',
+              content_id: globe.contents[i].id
+            });
+          }
         }
       } else {
         globe.$toasted.global.showError({
@@ -8249,7 +8294,7 @@ __webpack_require__.r(__webpack_exports__);
         globe.isFinished = response.data.isFinished;
 
         if (!globe.isFinished) {
-          globe.$axios.get('/api/checkDate/' + window.location.href.substring(window.location.href.lastIndexOf('/') + 1), {
+          globe.$axios.get('/api/getSurvey/' + window.location.href.substring(window.location.href.lastIndexOf('/') + 1), {
             headers: {
               'Authorization': "Bearer ".concat(globe.token)
             }
@@ -8258,41 +8303,15 @@ __webpack_require__.r(__webpack_exports__);
               globe.isExpired = response.data.isExpired;
 
               if (!globe.isExpired) {
-                globe.$axios.get('/api/getSurvey/' + window.location.href.substring(window.location.href.lastIndexOf('/') + 1), {
-                  headers: {
-                    'Authorization': "Bearer ".concat(globe.token)
-                  }
-                }).then(function (response) {
-                  if (response.data.message === "success") {
-                    globe.currentSurvey = response.data.survey;
-                    var length = globe.currentSurvey.content_ids.split('-').length;
+                globe.currentSurvey = response.data.survey;
+                globe.contents = response.data.contents;
 
-                    for (var i = 0; i < length; i++) {
-                      var element = globe.currentSurvey.content_ids.split('-')[i];
-                      globe.$axios.get('/api/getContent/' + element, {
-                        headers: {
-                          'Authorization': "Bearer ".concat(globe.token)
-                        }
-                      }).then(function (response) {
-                        if (response.data.message === "success") {
-                          globe.contents.push(response.data.content);
-                          globe.answers.push({
-                            answer: '',
-                            content_id: response.data.content.id
-                          });
-                        } else {
-                          globe.$toasted.global.showError({
-                            message: response.data.message
-                          });
-                        }
-                      });
-                    }
-                  } else {
-                    globe.$toasted.global.showError({
-                      message: response.data.message
-                    });
-                  }
-                });
+                for (var i = 0; i < globe.contents.length; i++) {
+                  globe.answers.push({
+                    answer: '',
+                    content_id: globe.contents[i].id
+                  });
+                }
               }
             } else {
               globe.$toasted.global.showError({
@@ -62320,7 +62339,113 @@ var render = function() {
       ])
     ]),
     _vm._v(" "),
-    _vm._m(0)
+    _c("div", { staticClass: "w-1/2 h-full flex" }, [
+      _c("div", { staticClass: "w-full max-w-md m-auto" }, [
+        _c("div", { staticClass: "w-full rounded-full h-1 bg-gray-600" }),
+        _vm._v(" "),
+        _c("div", { staticClass: "w-full flex p-2" }, [
+          _c("span", { staticClass: "font-normal text-xl italic m-auto" }, [
+            _vm._v(
+              "\n                    There are " +
+                _vm._s(_vm.respondList.length) +
+                " responds\n                "
+            )
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "w-full rounded-full h-1 bg-gray-600" }),
+        _vm._v(" "),
+        _c(
+          "div",
+          { staticClass: "w-full flex-row mt-4" },
+          _vm._l(_vm.respondList, function(respond, index) {
+            return _c(
+              "div",
+              {
+                key: index,
+                staticClass: "w-full max-w-md m-auto flex-row h-auto pb-4"
+              },
+              [
+                _c(
+                  "div",
+                  { staticClass: "w-full rounded-sm bg-yellow-400 flex p-2" },
+                  [
+                    _c("div", { staticClass: "w-1/2 flex-row" }, [
+                      _c(
+                        "div",
+                        { staticClass: "font-bold text-2xl text-black flex" },
+                        [
+                          _c("span", [
+                            _vm._v(
+                              "\n                                    " +
+                                _vm._s(respond.name) +
+                                "\n                                "
+                            )
+                          ])
+                        ]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "div",
+                        {
+                          staticClass:
+                            "font-normal text-xl text-black flex mb-2"
+                        },
+                        [
+                          _c("span", [
+                            _vm._v(
+                              "\n                                    " +
+                                _vm._s(respond.email) +
+                                "\n                                "
+                            )
+                          ])
+                        ]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "div",
+                        {
+                          staticClass:
+                            "font-normal text-lg text-black flex mb-2"
+                        },
+                        [
+                          _c("span", [
+                            _vm._v(
+                              "\n                                    " +
+                                _vm._s(respond.ip_address) +
+                                "\n                                "
+                            )
+                          ])
+                        ]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "div",
+                        { staticClass: "font-normal text-sm text-black flex" },
+                        [
+                          _c("span", [
+                            _vm._v(
+                              "\n                                    Responded at " +
+                                _vm._s(
+                                  _vm.$moment(respond.created_at).format("LL")
+                                ) +
+                                "\n                                "
+                            )
+                          ])
+                        ]
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _vm._m(0, true)
+                  ]
+                )
+              ]
+            )
+          }),
+          0
+        )
+      ])
+    ])
   ])
 }
 var staticRenderFns = [
@@ -62328,8 +62453,15 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "w-1/2 h-full flex" }, [
-      _c("div", { staticClass: "w-full max-w-md m-auto" })
+    return _c("div", { staticClass: "w-1/2 flex-row" }, [
+      _c(
+        "button",
+        {
+          staticClass: "btn btn-secondary btn-block mt-2",
+          attrs: { type: "button" }
+        },
+        [_vm._v("Download Response")]
+      )
     ])
   }
 ]

@@ -16,16 +16,39 @@ class RespondController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($slug)
     {
-        $responds = DB::table('responds')
-            ->join('surveys', 'responds.survey_id', '=', 'surveys.id')
-            ->select('responds.*', 'surveys.title', 'surveys.description')->get();
+        if($slug == NULL) {
 
-        return response()->json([
-            'message'=> 'success',
-            'respondList' => $responds,
-        ], 200);
+            $responds = DB::table('responds')
+                ->where('responds.user_id', '=', Auth::user()->id)
+                ->join('surveys', 'responds.survey_id', '=', 'surveys.id')
+                ->select('responds.*', 'surveys.title', 'surveys.description')->get();
+
+            return response()->json([
+                'message'=> 'success',
+                'respondList' => $responds,
+            ], 200);
+
+        } else {
+
+            if(Auth::user()->type === 'admin') {
+
+                $responds = DB::table('responds')
+                    ->where('responds.survey_id', '=', Survey::where('slug', '=', $slug)->first()->id)
+                    ->join('users', 'responds.user_id', '=', 'users.id')
+                    ->select('responds.*', 'users.name', 'users.email')->get();
+
+                return response()->json([
+                    'message'=> 'success',
+                    'respondList' => $responds,
+                ], 200);
+
+            } else {
+
+                return abort(403);
+            }
+        }
     }
 
     /**
