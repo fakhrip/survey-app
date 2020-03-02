@@ -163,14 +163,14 @@ class SurveyController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Survey  $survey
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Survey $survey)
+    public function destroy(Request $request)
     {
         if(Auth::user()->type === "admin") {
 
-            DB::table('surveys')->where('id', '=', $survey->id)->delete();
+            DB::table('surveys')->where('id', '=', $request->id)->delete();
 
             return response()->json([
                 'message'=> 'success',
