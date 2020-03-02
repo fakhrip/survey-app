@@ -37,7 +37,23 @@ class RespondController extends Controller
                 $responds = DB::table('responds')
                     ->where('responds.survey_id', '=', Survey::where('slug', '=', $slug)->first()->id)
                     ->join('users', 'responds.user_id', '=', 'users.id')
-                    ->select('responds.*', 'users.name', 'users.email')->get();
+                    ->select('responds.ip_address', 'responds.created_at', 'responds.answer_ids', 'users.name', 'users.email')->get();
+
+                for ($i=0; $i < count($responds); $i++) { 
+                    
+                    $currentAnswer_ids = explode("-", $responds[$i]->answer_ids);
+                    for ($j=0; $j < count($currentAnswer_ids); $j++) { 
+                        
+                        $currentAnswerID = $currentAnswer_ids[$j];
+                        $answer  = DB::table('answers')
+                                        ->where('answers.id', '=', $currentAnswerID)
+                                        ->join('contents', 'answers.content_id', '=', 'contents.id')
+                                        ->select('answers.answer', 'contents.question')->get();
+                        
+                        $questionString = $answer[0]->question;
+                        $responds[$i]->$questionString = $answer[0]->answer;
+                    }
+                }
 
                 return response()->json([
                     'message'=> 'success',
