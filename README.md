@@ -97,3 +97,5 @@ Note : `^` = versi sama atau diatasnya
 
 Sure, here you go :
 ![image1](img/db_design.jpg)
+
+There are several changes to the database structure so its better to see it in phpmyadmin to be clear
