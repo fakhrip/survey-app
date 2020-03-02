@@ -3,6 +3,7 @@ import VCalendar from 'v-calendar';
 import Moment from 'moment';
 import Axios from 'axios';
 import VueQrcode from '@chenfengyuan/vue-qrcode';
+import JsonExcel from 'vue-json-excel';
 
 require('./bootstrap');
 window.Vue = require('vue');
@@ -44,6 +45,7 @@ Vue.use(VCalendar, {
 });
 
 Vue.component(VueQrcode.name, VueQrcode);
+Vue.component('downloadExcel', JsonExcel)
 
 const files = require.context('./', true, /\.vue$/i)
 files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))

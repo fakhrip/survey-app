@@ -105,9 +105,20 @@
                 <div class="w-full rounded-full h-1 bg-gray-600"/>
 
                 <div class="w-full flex p-2">
-                    <span class="font-normal text-xl italic m-auto">
-                        There are {{ respondList.length }} responds
-                    </span>
+                    <div class="w-1/2 flex">
+                        <span class="font-normal text-xl italic m-auto">
+                            There are {{ respondList.length }} responds
+                        </span>
+                    </div>
+                    <div class="w-1/2 flex">
+                        <download-excel
+                            class       = "btn btn-secondary btn-block m-auto"
+                            :data       = "respondList"
+                            worksheet   = "Responds"
+                            :name       = "currentSurvey.title + '.xls'">
+                            Download Response
+                        </download-excel>
+                    </div>
                 </div>
 
                 <div class="w-full rounded-full h-1 bg-gray-600"/>
@@ -115,31 +126,26 @@
                 <div class="w-full flex-row mt-4">
                     <div v-for="(respond, index) in respondList" v-bind:key="index" 
                         class="w-full max-w-md m-auto flex-row h-auto pb-4">
-                        <div class="w-full rounded-sm bg-yellow-400 flex p-2">
-                            <div class="w-1/2 flex-row">
-                                <div class="font-bold text-2xl text-black flex">
-                                    <span>
-                                        {{ respond.name }}
-                                    </span>
-                                </div>
-                                <div class="font-normal text-xl text-black flex mb-2">
-                                    <span>
-                                        {{ respond.email }}
-                                    </span>
-                                </div>
-                                <div class="font-normal text-lg text-black flex mb-2">
-                                    <span>
-                                        {{ respond.ip_address }}
-                                    </span>
-                                </div>
-                                <div class="font-normal text-sm text-black flex">
-                                    <span>
-                                        Responded at {{ $moment(respond.created_at).format('LL')  }}
-                                    </span>
-                                </div>
+                        <div class="w-full rounded-sm bg-yellow-400 flex-row p-2">
+                            <div class="font-bold text-2xl text-black flex">
+                                <span>
+                                    {{ respond.name }}
+                                </span>
                             </div>
-                            <div class="w-1/2 flex-row">
-                                <button type="button" class="btn btn-secondary btn-block mt-2">Download Response</button>
+                            <div class="font-normal text-xl text-black flex mb-2">
+                                <span>
+                                    {{ respond.email }}
+                                </span>
+                            </div>
+                            <div class="font-normal text-lg text-black flex mb-2">
+                                <span>
+                                    {{ respond.ip_address }}
+                                </span>
+                            </div>
+                            <div class="font-normal text-sm text-black flex">
+                                <span>
+                                    Responded at {{ $moment(respond.created_at).format('LL')  }}
+                                </span>
                             </div>
                         </div>
                     </div>
