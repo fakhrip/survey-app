@@ -234,34 +234,14 @@
                                         if(!globe.isExpired) {
 
                                             globe.currentSurvey = response.data.survey;
+                                            globe.contents = response.data.contents;
                                             
-                                            var length = globe.currentSurvey.content_ids.split('-').length;
-                                            for (let i = 0; i<length; i++) {
+                                            for (let i = 0; i<globe.contents.length; i++) {
 
-                                                const element = globe.currentSurvey.content_ids.split('-')[i];
-                                                
-                                                globe
-                                                    .$axios.get('/api/getContent/'+element, {
-                                                        headers: {
-                                                            'Authorization': `Bearer ${globe.token}`
-                                                        }
-                                                    }).then(response => {
-
-                                                        if(response.data.message === "success") {
-
-                                                            globe.contents.push(response.data.content)
-
-                                                            globe.answers.push({
-                                                                answer: '',
-                                                                content_id: response.data.content.id,
-                                                            })
-
-                                                        } else {
-                                                            globe.$toasted.global.showError({
-                                                                message: response.data.message
-                                                            });
-                                                        }
-                                                    });
+                                                globe.answers.push({
+                                                    answer: '',
+                                                    content_id: globe.contents[i].id,
+                                                })
                                             }
                                         }
 

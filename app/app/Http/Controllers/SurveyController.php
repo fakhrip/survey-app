@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Auth;
 use App\Survey;
+use App\Content;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
@@ -72,26 +73,60 @@ class SurveyController extends Controller
     {
         $survey = Survey::where('slug', '=', $slug)->first();
 
-        $currentDate = date('Y-m-d');
-        $currentDate = date('Y-m-d', strtotime($currentDate));
-        
-        $dateFrom = date('Y-m-d', strtotime(explode("|", $survey->duration)[0]));
-        $dateTo = date('Y-m-d', strtotime(explode("|", $survey->duration)[1]));
+        if(Auth::user()->type === 'admin') {
 
-        if(!(($currentDate >= $dateFrom) && ($currentDate <= $dateTo))) {
+            $contents = array();
+            $contentIds = explode("-", $survey->content_ids);
 
-            return response()->json([
-                'message'=> 'success',
-                'isExpired'=> true,
-            ], 200);
+            for ($i=0; $i < count($contentIds); $i++) { 
 
-        } else {
+                $contentId = $contentIds[$i];
+                $currentContent = Content::where('id', '=', $contentId)->first();
+
+                array_push($contents, $currentContent);
+            }
 
             return response()->json([
                 'message'=> 'success',
                 'survey'=> $survey,
-                'isExpired'=> false,
+                'contents'=> $contents,
             ], 200);
+
+        } else {
+
+            $currentDate = date('Y-m-d');
+            $currentDate = date('Y-m-d', strtotime($currentDate));
+            
+            $dateFrom = date('Y-m-d', strtotime(explode("|", $survey->duration)[0]));
+            $dateTo = date('Y-m-d', strtotime(explode("|", $survey->duration)[1]));
+    
+            if(!(($currentDate >= $dateFrom) && ($currentDate <= $dateTo))) {
+    
+                return response()->json([
+                    'message'=> 'success',
+                    'isExpired'=> true,
+                ], 200);
+    
+            } else {
+    
+                $contents = array();
+                $contentIds = explode("-", $survey->content_ids);
+    
+                for ($i=0; $i < count($contentIds); $i++) { 
+    
+                    $contentId = $contentIds[$i];
+                    $currentContent = Content::where('id', '=', $contentId)->first();
+    
+                    array_push($contents, $currentContent);
+                }
+    
+                return response()->json([
+                    'message'=> 'success',
+                    'survey'=> $survey,
+                    'contents'=> $contents,
+                    'isExpired'=> false,
+                ], 200);
+            }
         }
     }
 
