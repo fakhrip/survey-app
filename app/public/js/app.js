@@ -7920,6 +7920,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['token'],
   data: function data() {
@@ -7983,6 +7985,279 @@ __webpack_require__.r(__webpack_exports__);
         });
       }
     });
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/SurveyEdit.vue?vue&type=script&lang=js&":
+/*!*********************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/SurveyEdit.vue?vue&type=script&lang=js& ***!
+  \*********************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  props: ['token'],
+  data: function data() {
+    return {
+      surveyForm: {
+        title: '',
+        description: '',
+        content_ids: '',
+        duration: ''
+      },
+      contents: [{
+        id: 0,
+        type: '',
+        question: '',
+        right_answer: '',
+        choices: ['This is example answer'],
+        isRequired: false
+      }]
+    };
+  },
+  methods: {
+    saveSurvey: function saveSurvey() {
+      var globe = this;
+
+      if (globe.surveyForm.title == '') {
+        globe.$toasted.global.showError({
+          message: "Title can't be empty"
+        });
+        return;
+      }
+
+      if (globe.surveyForm.description == '') {
+        globe.$toasted.global.showError({
+          message: "Description can't be empty"
+        });
+        return;
+      }
+
+      if (globe.surveyForm.duration == '') {
+        globe.$toasted.global.showError({
+          message: "Duration can't be empty"
+        });
+        return;
+      }
+
+      if (globe.contents.length < 1) {
+        globe.$toasted.global.showError({
+          message: "There should be at least 1 content"
+        });
+        return;
+      }
+
+      for (var i = 0; i < globe.contents.length; i++) {
+        if (globe.contents[i].type == '') {
+          globe.$toasted.global.showError({
+            message: "Choose type in all contents"
+          });
+          return;
+        }
+
+        if (globe.contents[i].question == '') {
+          globe.$toasted.global.showError({
+            message: "Question in all contents can't be empty"
+          });
+          return;
+        }
+
+        if (globe.contents[i].choices.length < 1) {
+          globe.$toasted.global.showError({
+            message: "There should be at least 1 option"
+          });
+          return;
+        }
+      }
+
+      globe.$axios.post('/api/addContents', globe.contents, {
+        headers: {
+          'Authorization': "Bearer ".concat(globe.token)
+        }
+      }).then(function (response) {
+        if (response.data.message === "success") {
+          globe.surveyForm.content_ids = response.data.contentIds;
+          globe.$axios.post('/api/addSurvey', globe.surveyForm, {
+            headers: {
+              'Authorization': "Bearer ".concat(globe.token)
+            }
+          }).then(function (response) {
+            if (response.data.message === "success") {
+              globe.$toasted.global.showSuccess({
+                message: "Survey successfully created"
+              });
+              window.location.replace("/home");
+            } else {
+              globe.$toasted.global.showError({
+                message: response.data.message
+              });
+            }
+          });
+        } else {
+          globe.$toasted.global.showError({
+            message: response.data.message
+          });
+        }
+      });
+    }
   }
 });
 
@@ -62043,14 +62318,16 @@ var render = function() {
   return _c("div", { staticClass: "flex w-full h-full" }, [
     _c("div", { staticClass: "w-1/2 h-full flex" }, [
       _c("div", { staticClass: "w-full max-w-md m-auto" }, [
-        _c(
-          "button",
-          {
-            staticClass: "btn btn-primary btn-block m-2",
-            attrs: { type: "button" }
-          },
-          [_vm._v("Edit this survey")]
-        ),
+        _c("a", { attrs: { href: "/edit/" + _vm.survey.slug } }, [
+          _c(
+            "button",
+            {
+              staticClass: "btn btn-primary btn-block m-2",
+              attrs: { type: "button" }
+            },
+            [_vm._v("Edit this survey")]
+          )
+        ]),
         _vm._v(" "),
         _c("div", { staticClass: "w-full flex-row m-2" }, [
           _c("div", { staticClass: "w-full flex rounded-sm bg-gray-200" }, [
@@ -62461,6 +62738,582 @@ var staticRenderFns = [
           attrs: { type: "button" }
         },
         [_vm._v("Download Response")]
+      )
+    ])
+  }
+]
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/SurveyEdit.vue?vue&type=template&id=2955d1a2&":
+/*!*************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/SurveyEdit.vue?vue&type=template&id=2955d1a2& ***!
+  \*************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "w-full h-full flex" }, [
+    _c(
+      "form",
+      { staticClass: "w-full max-w-md m-auto" },
+      [
+        _c("div", { staticClass: "flex items-center mb-6" }, [
+          _vm._m(0),
+          _vm._v(" "),
+          _c("div", { staticClass: "w-2/3" }, [
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.surveyForm.title,
+                  expression: "surveyForm.title"
+                }
+              ],
+              staticClass:
+                "bg-gray-200 appearance-none text-xl border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-teal-500",
+              attrs: { type: "text", placeholder: "New Survey" },
+              domProps: { value: _vm.surveyForm.title },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.$set(_vm.surveyForm, "title", $event.target.value)
+                }
+              }
+            })
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "flex items-center mb-6" }, [
+          _vm._m(1),
+          _vm._v(" "),
+          _c("div", { staticClass: "w-2/3" }, [
+            _c("textarea", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.surveyForm.description,
+                  expression: "surveyForm.description"
+                }
+              ],
+              staticClass:
+                "resize-none text-xl bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full h-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-teal-500",
+              attrs: {
+                cols: "30",
+                rows: "3",
+                type: "text",
+                placeholder: "This is a customable survey"
+              },
+              domProps: { value: _vm.surveyForm.description },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.$set(_vm.surveyForm, "description", $event.target.value)
+                }
+              }
+            })
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "flex items-center mb-6" }, [
+          _vm._m(2),
+          _vm._v(" "),
+          _c(
+            "div",
+            { staticClass: "w-2/3" },
+            [
+              _c("vc-date-picker", {
+                attrs: {
+                  mode: "range",
+                  "min-date": new Date(),
+                  color: "red",
+                  "is-dark": ""
+                },
+                model: {
+                  value: _vm.surveyForm.duration,
+                  callback: function($$v) {
+                    _vm.$set(_vm.surveyForm, "duration", $$v)
+                  },
+                  expression: "surveyForm.duration"
+                }
+              })
+            ],
+            1
+          )
+        ]),
+        _vm._v(" "),
+        _vm._l(_vm.contents, function(content, index) {
+          return _c(
+            "form",
+            { key: index, staticClass: "w-full flex-row h-auto mb-4" },
+            [
+              _c(
+                "div",
+                { staticClass: "w-full flex-row rounded-sm bg-gray-400 m-2" },
+                [
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-danger btn-block mb-2",
+                      attrs: { type: "button" },
+                      on: {
+                        click: function($event) {
+                          return _vm.contents.splice(index, 1)
+                        }
+                      }
+                    },
+                    [_vm._v("Delete this content")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    {
+                      staticClass:
+                        "w-10/12 h-8 flex rounded-sm mb-2 mx-auto appearance-none cursor-pointer select-none",
+                      class: [
+                        { "bg-green-500": _vm.contents[index].isRequired },
+                        { "bg-gray-500": !_vm.contents[index].isRequired }
+                      ],
+                      on: {
+                        click: function($event) {
+                          _vm.contents[index].isRequired = !_vm.contents[index]
+                            .isRequired
+                        }
+                      }
+                    },
+                    [
+                      _c(
+                        "span",
+                        {
+                          staticClass: "w-auto m-auto",
+                          class: [
+                            { visible: _vm.contents[index].isRequired },
+                            { hidden: !_vm.contents[index].isRequired }
+                          ]
+                        },
+                        [
+                          _vm._v(
+                            "\n                        This content is mandatory\n                    "
+                          )
+                        ]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "span",
+                        {
+                          staticClass: "w-auto m-auto",
+                          class: [
+                            { hidden: _vm.contents[index].isRequired },
+                            { visible: !_vm.contents[index].isRequired }
+                          ]
+                        },
+                        [
+                          _vm._v(
+                            "\n                        This content is optional\n                    "
+                          )
+                        ]
+                      )
+                    ]
+                  ),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "flex items-center p-2" }, [
+                    _vm._m(3, true),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "w-2/3" }, [
+                      _c(
+                        "select",
+                        {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.contents[index].type,
+                              expression: "contents[index].type"
+                            }
+                          ],
+                          staticClass:
+                            "block resize-y resize-none text-lg bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full h-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-teal-500",
+                          on: {
+                            change: function($event) {
+                              var $$selectedVal = Array.prototype.filter
+                                .call($event.target.options, function(o) {
+                                  return o.selected
+                                })
+                                .map(function(o) {
+                                  var val = "_value" in o ? o._value : o.value
+                                  return val
+                                })
+                              _vm.$set(
+                                _vm.contents[index],
+                                "type",
+                                $event.target.multiple
+                                  ? $$selectedVal
+                                  : $$selectedVal[0]
+                              )
+                            }
+                          }
+                        },
+                        [
+                          _c(
+                            "option",
+                            {
+                              staticClass: "text-gray-400",
+                              attrs: { value: "", disabled: "", selected: "" }
+                            },
+                            [_vm._v("Choose answer type")]
+                          ),
+                          _vm._v(" "),
+                          _c("option", { attrs: { value: "0" } }, [
+                            _vm._v("Text")
+                          ]),
+                          _vm._v(" "),
+                          _c("option", { attrs: { value: "1" } }, [
+                            _vm._v("Date")
+                          ]),
+                          _vm._v(" "),
+                          _c("option", { attrs: { value: "2" } }, [
+                            _vm._v("Radio Option (Single choice)")
+                          ]),
+                          _vm._v(" "),
+                          _c("option", { attrs: { value: "3" } }, [
+                            _vm._v("Checkbox Option (Multiple choices)")
+                          ])
+                        ]
+                      )
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "flex items-center p-2" }, [
+                    _vm._m(4, true),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "w-2/3" }, [
+                      _c("textarea", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.contents[index].question,
+                            expression: "contents[index].question"
+                          }
+                        ],
+                        staticClass:
+                          "resize-y resize-none text-lg bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full h-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-teal-500",
+                        attrs: {
+                          cols: "30",
+                          rows: "3",
+                          type: "text",
+                          placeholder: "Here comes the question, right ?"
+                        },
+                        domProps: { value: _vm.contents[index].question },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.contents[index],
+                              "question",
+                              $event.target.value
+                            )
+                          }
+                        }
+                      })
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    {
+                      staticClass: "flex-row w-full",
+                      class: [
+                        {
+                          visible:
+                            _vm.contents[index].type == "2" ||
+                            _vm.contents[index].type == "3"
+                        },
+                        {
+                          hidden:
+                            _vm.contents[index].type != "2" &&
+                            _vm.contents[index].type != "3"
+                        }
+                      ]
+                    },
+                    [
+                      _vm._m(5, true),
+                      _vm._v(" "),
+                      _vm._l(_vm.contents[index].choices, function(
+                        option,
+                        optionIndex
+                      ) {
+                        return _c(
+                          "div",
+                          {
+                            key: optionIndex,
+                            staticClass: "w-full flex h-auto"
+                          },
+                          [
+                            _c(
+                              "div",
+                              { staticClass: "flex items-center p-2" },
+                              [
+                                _c("div", { staticClass: "w-1/3 flex-row" }, [
+                                  _c(
+                                    "label",
+                                    {
+                                      staticClass:
+                                        "block text-gray-600 font-bold text-right mb-1 mb-0 pr-4"
+                                    },
+                                    [
+                                      _vm._v(
+                                        "\n                                    No. " +
+                                          _vm._s(optionIndex + 1) +
+                                          "\n                                "
+                                      )
+                                    ]
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "div",
+                                    { staticClass: "w-16 flex ml-auto" },
+                                    [
+                                      _c(
+                                        "button",
+                                        {
+                                          staticClass:
+                                            "btn btn-secondary btn-sm mr-2 mb-2 w-16",
+                                          attrs: { type: "button" },
+                                          on: {
+                                            click: function($event) {
+                                              return _vm.contents[
+                                                index
+                                              ].choices.splice(optionIndex, 1)
+                                            }
+                                          }
+                                        },
+                                        [
+                                          _vm._v(
+                                            "\n                                        Delete\n                                    "
+                                          )
+                                        ]
+                                      )
+                                    ]
+                                  )
+                                ]),
+                                _vm._v(" "),
+                                _c("div", { staticClass: "w-2/3" }, [
+                                  _c("textarea", {
+                                    directives: [
+                                      {
+                                        name: "model",
+                                        rawName: "v-model",
+                                        value:
+                                          _vm.contents[index].choices[
+                                            optionIndex
+                                          ],
+                                        expression:
+                                          "contents[index].choices[optionIndex]"
+                                      }
+                                    ],
+                                    staticClass:
+                                      "resize-y resize-none text-lg bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full h-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-teal-500",
+                                    attrs: {
+                                      cols: "30",
+                                      rows: "3",
+                                      type: "text",
+                                      placeholder: "This is example answer"
+                                    },
+                                    domProps: {
+                                      value:
+                                        _vm.contents[index].choices[optionIndex]
+                                    },
+                                    on: {
+                                      input: function($event) {
+                                        if ($event.target.composing) {
+                                          return
+                                        }
+                                        _vm.$set(
+                                          _vm.contents[index].choices,
+                                          optionIndex,
+                                          $event.target.value
+                                        )
+                                      }
+                                    }
+                                  })
+                                ])
+                              ]
+                            )
+                          ]
+                        )
+                      }),
+                      _vm._v(" "),
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-secondary ml-2 mb-2",
+                          attrs: { type: "button" },
+                          on: {
+                            click: function($event) {
+                              return _vm.contents[index].choices.push(
+                                "This is example answer"
+                              )
+                            }
+                          }
+                        },
+                        [_vm._v("Add new option")]
+                      )
+                    ],
+                    2
+                  )
+                ]
+              )
+            ]
+          )
+        }),
+        _vm._v(" "),
+        _c(
+          "button",
+          {
+            staticClass: "btn btn-primary btn-block m-2",
+            attrs: { type: "button" },
+            on: {
+              click: function($event) {
+                return _vm.contents.push({
+                  id: 0,
+                  type: "",
+                  question: "",
+                  right_answer: "",
+                  choices: ["This is example answer"],
+                  isRequired: false
+                })
+              }
+            }
+          },
+          [_vm._v("\n            Add new content\n        ")]
+        ),
+        _vm._v(" "),
+        _c(
+          "button",
+          {
+            staticClass: "btn btn-primary btn-block m-2",
+            attrs: { type: "button" },
+            on: {
+              click: function($event) {
+                return _vm.saveSurvey()
+              }
+            }
+          },
+          [_vm._v("Save Survey")]
+        )
+      ],
+      2
+    )
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "w-1/3" }, [
+      _c(
+        "label",
+        {
+          staticClass:
+            "block text-gray-600 font-bold text-right mb-1 mb-0 pr-4 text-lg"
+        },
+        [_vm._v("\n                    Title\n                ")]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "w-1/3" }, [
+      _c(
+        "label",
+        {
+          staticClass:
+            "block text-gray-600 font-bold text-right mb-1 mb-0 pr-4 text-lg"
+        },
+        [_vm._v("\n                    Description\n                ")]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "w-1/3" }, [
+      _c(
+        "label",
+        {
+          staticClass:
+            "block text-gray-600 font-bold text-right mb-1 mb-0 pr-4 text-lg"
+        },
+        [_vm._v("\n                    Duration\n                ")]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "w-1/3" }, [
+      _c(
+        "label",
+        {
+          staticClass: "block text-gray-600 font-bold text-right mb-1 mb-0 pr-4"
+        },
+        [_vm._v("\n                            Type\n                        ")]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "w-1/3" }, [
+      _c(
+        "label",
+        {
+          staticClass: "block text-gray-600 font-bold text-right mb-1 mb-0 pr-4"
+        },
+        [
+          _vm._v(
+            "\n                            Question\n                        "
+          )
+        ]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "w-full flex" }, [
+      _c("div", { staticClass: "w-full h-1 bg-gray-700 my-auto mx-4" }),
+      _vm._v(" "),
+      _c(
+        "span",
+        { staticClass: "w-auto ml-auto pr-4 font-bold text-xl text-gray-700" },
+        [_vm._v("Options")]
       )
     ])
   }
@@ -75146,6 +75999,7 @@ var map = {
 	"./components/RespondList.vue": "./resources/js/components/RespondList.vue",
 	"./components/Survey.vue": "./resources/js/components/Survey.vue",
 	"./components/SurveyDetail.vue": "./resources/js/components/SurveyDetail.vue",
+	"./components/SurveyEdit.vue": "./resources/js/components/SurveyEdit.vue",
 	"./components/SurveyList.vue": "./resources/js/components/SurveyList.vue",
 	"./components/SurveyView.vue": "./resources/js/components/SurveyView.vue"
 };
@@ -75502,6 +76356,75 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_SurveyDetail_vue_vue_type_template_id_1002d294___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_SurveyDetail_vue_vue_type_template_id_1002d294___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/components/SurveyEdit.vue":
+/*!************************************************!*\
+  !*** ./resources/js/components/SurveyEdit.vue ***!
+  \************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _SurveyEdit_vue_vue_type_template_id_2955d1a2___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./SurveyEdit.vue?vue&type=template&id=2955d1a2& */ "./resources/js/components/SurveyEdit.vue?vue&type=template&id=2955d1a2&");
+/* harmony import */ var _SurveyEdit_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./SurveyEdit.vue?vue&type=script&lang=js& */ "./resources/js/components/SurveyEdit.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _SurveyEdit_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _SurveyEdit_vue_vue_type_template_id_2955d1a2___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _SurveyEdit_vue_vue_type_template_id_2955d1a2___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/SurveyEdit.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/SurveyEdit.vue?vue&type=script&lang=js&":
+/*!*************************************************************************!*\
+  !*** ./resources/js/components/SurveyEdit.vue?vue&type=script&lang=js& ***!
+  \*************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_SurveyEdit_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./SurveyEdit.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/SurveyEdit.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_SurveyEdit_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/SurveyEdit.vue?vue&type=template&id=2955d1a2&":
+/*!*******************************************************************************!*\
+  !*** ./resources/js/components/SurveyEdit.vue?vue&type=template&id=2955d1a2& ***!
+  \*******************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_SurveyEdit_vue_vue_type_template_id_2955d1a2___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./SurveyEdit.vue?vue&type=template&id=2955d1a2& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/SurveyEdit.vue?vue&type=template&id=2955d1a2&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_SurveyEdit_vue_vue_type_template_id_2955d1a2___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_SurveyEdit_vue_vue_type_template_id_2955d1a2___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 

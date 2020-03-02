@@ -48,6 +48,7 @@ Route::group(['middleware' => ['auth']], function () {
             return view('new_survey', [
                 'token' => updateToken()
             ]);
+            
         } else {
 
             return abort(403);
@@ -61,6 +62,28 @@ Route::group(['middleware' => ['auth']], function () {
             return view('survey_detail', [
                 'token' => updateToken(),
             ]);
+
+        } catch(ModelNotFoundException $e) {
+
+            return abort(404);
+        }
+    });
+    Route::get('/edit/{path}', function ($path) {
+
+        try {
+            $survey = Survey::where('slug', '=', $path)->firstOrFail();
+            
+
+            if(Auth::user()->type === "admin") {
+
+                return view('edit_survey', [
+                    'token' => updateToken(),
+                ]);
+
+            } else {
+
+                return abort(403);
+            }
 
         } catch(ModelNotFoundException $e) {
 
