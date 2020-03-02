@@ -35,24 +35,31 @@ class AnswerController extends Controller
      */
     public function store(Request $request)
     {
-        $answer_ids = '';
-        for ($i=0; $i<count($request->all()); $i++) { 
-            
-            $answer = Answer::create([
-                'answer'        => is_array($request->input($i.'.answer')) ? implode('|', (array) $request->input($i.'.answer')) : $request->input($i.'.answer'),
-                'content_id'    => $request->input($i.'.content_id'),
-            ]);
+        if($request->input('0.secret') === "1337_t0k3n") {
 
-            $answer_ids .= $answer->id;
+            $answer_ids = '';
+            for ($i=0; $i<count($request->all()); $i++) { 
+                
+                $answer = Answer::create([
+                    'answer'        => is_array($request->input($i.'.answer')) ? implode('|', (array) $request->input($i.'.answer')) : $request->input($i.'.answer'),
+                    'content_id'    => $request->input($i.'.content_id'),
+                ]);
 
-            if($i !== count($request->all())-1)
-                $answer_ids .= '-';
+                $answer_ids .= $answer->id;
+
+                if($i !== count($request->all())-1)
+                    $answer_ids .= '-';
+            }
+
+            return response()->json([
+                'message'=> 'success',
+                'answer_ids' => $answer_ids,
+            ], 200);
+
+        } else {
+
+            return abort(403);
         }
-
-        return response()->json([
-            'message'=> 'success',
-            'answer_ids' => $answer_ids,
-        ], 200);
     }
 
     /**

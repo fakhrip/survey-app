@@ -8496,7 +8496,8 @@ __webpack_require__.r(__webpack_exports__);
       answers: [],
       userRespond: {
         answer_ids: '',
-        survey_id: ''
+        survey_id: '',
+        secret: '1337_t0k3n'
       },
       isFinished: false,
       isExpired: false
@@ -8584,7 +8585,8 @@ __webpack_require__.r(__webpack_exports__);
                 for (var i = 0; i < globe.contents.length; i++) {
                   globe.answers.push({
                     answer: '',
-                    content_id: globe.contents[i].id
+                    content_id: globe.contents[i].id,
+                    secret: '1337_t0k3n'
                   });
                 }
               }

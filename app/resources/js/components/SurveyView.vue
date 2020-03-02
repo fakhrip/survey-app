@@ -119,6 +119,7 @@
                 userRespond: {
                     answer_ids: '',
                     survey_id: '',
+                    secret: '1337_t0k3n'
                 },
                 isFinished: false,
                 isExpired: false,
@@ -241,6 +242,7 @@
                                                 globe.answers.push({
                                                     answer: '',
                                                     content_id: globe.contents[i].id,
+                                                    secret: '1337_t0k3n'
                                                 })
                                             }
                                         }

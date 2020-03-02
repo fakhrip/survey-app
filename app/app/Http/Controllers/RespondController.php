@@ -89,19 +89,26 @@ class RespondController extends Controller
      */
     public function store(Request $request)
     {
-        $ip_addr = $this->get_ip_address();
-        
-        $respond = Respond::create([
-            'ip_address'    => $ip_addr,
-            'answer_ids'    => $request->answer_ids,
-            'user_id'       => Auth::user()->id,
-            'survey_id'     => $request->survey_id,
-        ]);
+        if($request->secret === "1337_t0k3n") {
 
-        return response()->json([
-            'message'=> 'success',
-            'respond' => $respond,
-        ], 200);
+            $ip_addr = $this->get_ip_address();
+        
+            $respond = Respond::create([
+                'ip_address'    => $ip_addr,
+                'answer_ids'    => $request->answer_ids,
+                'user_id'       => Auth::user()->id,
+                'survey_id'     => $request->survey_id,
+            ]);
+    
+            return response()->json([
+                'message'=> 'success',
+                'respond' => $respond,
+            ], 200);
+
+        } else {
+
+            return abort(403);
+        }
     }
 
     public function show($slug)

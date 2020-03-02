@@ -48,7 +48,7 @@ Route::group(['middleware' => ['auth']], function () {
             return view('new_survey', [
                 'token' => updateToken()
             ]);
-            
+
         } else {
 
             return abort(403);
@@ -73,7 +73,6 @@ Route::group(['middleware' => ['auth']], function () {
         try {
             $survey = Survey::where('slug', '=', $path)->firstOrFail();
             
-
             if(Auth::user()->type === "admin") {
 
                 return view('edit_survey', [
