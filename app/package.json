@@ -28,6 +28,7 @@
         "moment": "^2.24.0",
         "tailwindcss": "^1.2.0",
         "v-calendar": "^1.0.0-beta.23",
+        "vue-json-excel": "^0.2.98",
         "vue-toasted": "^1.1.27"
     }
 }
