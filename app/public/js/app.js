@@ -7657,6 +7657,7 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       surveyForm: {
+        id: 0,
         title: '',
         description: '',
         content_ids: '',
@@ -7966,18 +7967,14 @@ __webpack_require__.r(__webpack_exports__);
       }
     }).then(function (response) {
       if (response.data.message === "success") {
-        globe.isExpired = response.data.isExpired;
+        globe.currentSurvey = response.data.survey;
+        globe.contents = response.data.contents;
 
-        if (!globe.isExpired) {
-          globe.currentSurvey = response.data.survey;
-          globe.contents = response.data.contents;
-
-          for (var i = 0; i < globe.contents.length; i++) {
-            globe.answers.push({
-              answer: '',
-              content_id: globe.contents[i].id
-            });
-          }
+        for (var i = 0; i < globe.contents.length; i++) {
+          globe.answers.push({
+            answer: '',
+            content_id: globe.contents[i].id
+          });
         }
       } else {
         globe.$toasted.global.showError({
@@ -8153,25 +8150,45 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['token'],
   data: function data() {
     return {
-      surveyForm: {
-        title: '',
-        description: '',
-        content_ids: '',
-        duration: ''
-      },
-      contents: [{
-        id: 0,
-        type: '',
-        question: '',
-        right_answer: '',
-        choices: ['This is example answer'],
-        isRequired: false
-      }]
+      surveyForm: {},
+      contents: []
     };
+  },
+  mounted: function mounted() {
+    var globe = this;
+    globe.$axios.get('/api/getSurvey/' + window.location.href.substring(window.location.href.lastIndexOf('/') + 1), {
+      headers: {
+        'Authorization': "Bearer ".concat(globe.token)
+      }
+    }).then(function (response) {
+      if (response.data.message === "success") {
+        globe.surveyForm = response.data.survey;
+        globe.contents = response.data.contents;
+        var startDate = new Date(globe.surveyForm.duration.split('|')[0]);
+        var endDate = new Date(globe.surveyForm.duration.split('|')[1]);
+        globe.surveyForm.duration = {
+          start: startDate,
+          end: endDate
+        };
+
+        for (var index = 0; index < globe.contents.length; index++) {
+          globe.contents[index].choices = globe.contents[index].choices.split('|');
+          globe.contents[index].type = globe.contents[index].type.toString();
+        }
+      } else {
+        globe.$toasted.global.showError({
+          message: response.data.message
+        });
+      }
+    });
   },
   methods: {
     saveSurvey: function saveSurvey() {
@@ -63221,7 +63238,18 @@ var render = function() {
             }
           },
           [_vm._v("Save Survey")]
-        )
+        ),
+        _vm._v(" "),
+        _c("a", { attrs: { href: "/survey/" + _vm.surveyForm.slug } }, [
+          _c(
+            "button",
+            {
+              staticClass: "btn btn-danger btn-block m-2",
+              attrs: { type: "button" }
+            },
+            [_vm._v("Cancel Edit")]
+          )
+        ])
       ],
       2
     )

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Auth;
 use App\Content;
 use Illuminate\Http\Request;
 
@@ -40,14 +41,33 @@ class ContentController extends Controller
             $contentIds = '';
             for ($i=0; $i<count($request->all()); $i++) { 
                 
-                $content = Content::create([
-                    'type'          => $request->input($i.'.type'),
-                    'question'      => $request->input($i.'.question'),
-                    'right_answer'  => $request->input($i.'.right_answer'),
-                    'choices'       => implode("|", $request->input($i.'.choices')),
-                    'isRequired'    => $request->input($i.'.isRequired'),
-                ]);
-    
+                $currentId = $request->input($i.'.id');
+
+                if($currentId === 0) {
+
+                    //------------------------------------------------------ ADD CONTENT
+
+                    $content = Content::create([
+                        'type'          => $request->input($i.'.type'),
+                        'question'      => $request->input($i.'.question'),
+                        'right_answer'  => $request->input($i.'.right_answer'),
+                        'choices'       => implode("|", $request->input($i.'.choices')),
+                        'isRequired'    => $request->input($i.'.isRequired'),
+                    ]);
+
+                } else {
+
+                    //------------------------------------------------------ EDIT CONTENT
+
+                    $content = Content::where('id', '=', $currentId)->first();
+                    $content->type          = $request->input($i.'.type');
+                    $content->question      = $request->input($i.'.question');
+                    $content->right_answer  = $request->input($i.'.right_answer');
+                    $content->choices       = implode("|", $request->input($i.'.choices'));
+                    $content->isRequired    = $request->input($i.'.isRequired');
+                    $content->save();
+                }
+        
                 $contentIds .= $content->id;
     
                 if($i !== count($request->all())-1)

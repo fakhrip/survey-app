@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use DB;
 use Auth;
 use App\Survey;
 use App\Content;
@@ -51,14 +52,32 @@ class SurveyController extends Controller
     {
         if(Auth::user()->type === "admin") {
 
-            $survey = Survey::create([
-                'slug'        => Str::random(10),
-                'title'       => $request->title,
-                'description' => $request->description,
-                'content_ids' => $request->content_ids,
-                'duration'    => implode('|', (array) $request->duration),
-            ]);
-    
+            $currentId = $request->id;
+
+            if($currentId === 0) {
+
+                //------------------------------------------------------ ADD SURVEY
+
+                $survey = Survey::create([
+                    'slug'        => Str::random(10),
+                    'title'       => $request->title,
+                    'description' => $request->description,
+                    'content_ids' => $request->content_ids,
+                    'duration'    => implode('|', (array) $request->duration),
+                ]);
+
+            } else {
+
+                //------------------------------------------------------ EDIT SURVEY
+
+                $survey = Survey::where('id', '=', $currentId)->first();
+                $survey->title       = $request->title;
+                $survey->description = $request->description;
+                $survey->content_ids = $request->content_ids;
+                $survey->duration    = implode('|', (array) $request->duration);
+                $survey->save();
+            }
+        
             return response()->json([
                 'message'=> 'success',
             ], 200);
@@ -151,7 +170,7 @@ class SurveyController extends Controller
     {
         if(Auth::user()->type === "admin") {
 
-            $survey->delete();
+            DB::table('surveys')->where('id', '=', $survey->id)->delete();
 
             return response()->json([
                 'message'=> 'success',

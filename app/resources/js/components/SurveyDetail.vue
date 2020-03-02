@@ -217,21 +217,16 @@
                 }).then(response => {
 
                     if(response.data.message === "success") {
+
+                        globe.currentSurvey = response.data.survey;
+                        globe.contents = response.data.contents;
                         
-                        globe.isExpired = response.data.isExpired; 
+                        for (let i = 0; i<globe.contents.length; i++) {
 
-                        if(!globe.isExpired) {
-
-                            globe.currentSurvey = response.data.survey;
-                            globe.contents = response.data.contents;
-                            
-                            for (let i = 0; i<globe.contents.length; i++) {
-
-                                globe.answers.push({
-                                    answer: '',
-                                    content_id: globe.contents[i].id,
-                                })
-                            }
+                            globe.answers.push({
+                                answer: '',
+                                content_id: globe.contents[i].id,
+                            })
                         }
 
                     } else {

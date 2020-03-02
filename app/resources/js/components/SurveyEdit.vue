@@ -148,6 +148,10 @@
             </button>
 
             <button type="button" class="btn btn-primary btn-block m-2" v-on:click="saveSurvey()">Save Survey</button>
+            
+            <a :href="'/survey/' + surveyForm.slug">
+                <button type="button" class="btn btn-danger btn-block m-2">Cancel Edit</button>
+            </a>
         </form>
     </div>
 </template>
@@ -160,26 +164,46 @@
 
         data() {
             return {
-                surveyForm: {
-                    title: '',
-                    description: '',
-                    content_ids: '',
-                    duration: '',
-                },
-
-                contents: [
-                    {
-                        id: 0,
-                        type: '',
-                        question: '',
-                        right_answer: '',
-                        choices: [
-                            'This is example answer',
-                        ],
-                        isRequired: false,
-                    }
-                ]
+                surveyForm: {},
+                contents: [],  
             };
+        },
+
+        mounted() {
+        
+            const globe = this;
+
+            globe
+                .$axios.get('/api/getSurvey/'+(window.location.href.substring(window.location.href.lastIndexOf('/') + 1)), {
+                    headers: {
+                        'Authorization': `Bearer ${globe.token}`
+                    } 
+                }).then(response => {
+
+                    if(response.data.message === "success") {
+
+                        globe.surveyForm = response.data.survey;
+                        globe.contents = response.data.contents;
+
+                        let startDate = new Date(globe.surveyForm.duration.split('|')[0])
+                        let endDate = new Date(globe.surveyForm.duration.split('|')[1])
+                        globe.surveyForm.duration = {
+                            start: startDate,
+                            end: endDate
+                        }
+
+                        for (let index = 0; index < globe.contents.length; index++) {
+                        
+                            globe.contents[index].choices = globe.contents[index].choices.split('|');
+                            globe.contents[index].type = globe.contents[index].type.toString();
+                        }
+
+                    } else {
+                        globe.$toasted.global.showError({
+                            message: response.data.message
+                        });
+                    }
+                });
         },
 
         methods: {

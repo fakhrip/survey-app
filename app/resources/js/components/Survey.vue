@@ -161,6 +161,7 @@
         data() {
             return {
                 surveyForm: {
+                    id: 0,
                     title: '',
                     description: '',
                     content_ids: '',
