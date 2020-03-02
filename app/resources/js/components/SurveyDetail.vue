@@ -2,7 +2,7 @@
     <div class="flex w-full h-full">
         <div class="w-1/2 h-full flex">
             <div class="w-full max-w-md m-auto">
-                <a :href="'/edit/' + survey.slug">
+                <a :href="'/edit/' + currentSurvey.slug">
                     <button type="button" class="btn btn-primary btn-block m-2">Edit this survey</button>
                 </a>
 

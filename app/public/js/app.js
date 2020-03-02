@@ -62318,7 +62318,7 @@ var render = function() {
   return _c("div", { staticClass: "flex w-full h-full" }, [
     _c("div", { staticClass: "w-1/2 h-full flex" }, [
       _c("div", { staticClass: "w-full max-w-md m-auto" }, [
-        _c("a", { attrs: { href: "/edit/" + _vm.survey.slug } }, [
+        _c("a", { attrs: { href: "/edit/" + _vm.currentSurvey.slug } }, [
           _c(
             "button",
             {
