@@ -65,16 +65,6 @@ class ContentController extends Controller
         }
     }
 
-    public function show($id)
-    {
-        $content = Content::where('id', '=', $id)->first();
-
-        return response()->json([
-            'message'=> 'success',
-            'content' => $content,
-        ], 200);
-    }
-
     /**
      * Show the form for editing the specified resource.
      *
